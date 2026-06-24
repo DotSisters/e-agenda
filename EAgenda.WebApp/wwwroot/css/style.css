@@ -1,0 +1,92 @@
+body{
+    background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: "Lora", "Times New Roman", serif;
+}
+
+.tabela-container {
+    border: 1px solid #accbee;
+    border-radius: 8px;
+        overflow-x: auto;
+}
+
+.tabela-modulo {
+    margin-bottom: 0;
+}
+
+.tabela-modulo th,
+.tabela-modulo td {
+    text-align: center;
+    vertical-align: middle;
+    border:none;
+}
+
+.tabela-modulo td {
+    padding: 1rem 1rem;
+}
+
+.tabela-modulo thead th {
+    background: radial-gradient(circle,rgba(50, 121, 221, 1) 0%, rgba(54, 92, 145, 1) 100%) !important;
+    color: #ffffff;
+    font-weight: 500;
+}
+.btn-primary {
+    background-image: linear-gradient(90deg,rgba(50, 121, 221, 1) 0%, rgba(54, 92, 145, 1) 100%);
+    font-weight: 500;
+    border: none;
+        padding: 0.5rem 1rem;
+}
+
+.btn-primary:hover {
+    background-color: rgba(54, 92, 145, 1);
+    transform: translateY(-2px);
+}
+.btn-outline-primary {
+    color: #2f3e46;
+    border: 1px solid #2f3e46;
+    border-color: rgba(54, 92, 145, 1);
+}
+
+.btn-outline-primary:hover {
+    background-color: rgba(50, 121, 221, 1);
+    color: white;
+    border-color: rgba(54, 92, 145, 1);
+}
+
+
+.modulo-card {
+    background-image: linear-gradient(-20deg, #accbee 0%, #e7f0fd 100%);
+    font-size: 1.1rem;
+}
+
+.modulo-card .badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    background-image: linear-gradient(90deg,rgba(50, 121, 221, 1) 0%, rgba(54, 92, 145, 1) 100%);
+}
+
+.index-img {
+  position: relative;
+  display: block;
+  margin: 0 auto 2rem auto; 
+  width: 100%;
+  max-width: 2000px;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.btn-home {
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+}
+
+main,
+header,
+nav {
+    position: relative;
+    z-index: 1;
+}
