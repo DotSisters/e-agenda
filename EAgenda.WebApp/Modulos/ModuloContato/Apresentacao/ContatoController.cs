@@ -52,5 +52,42 @@ namespace EAgenda.WebApp.Modulos.ModuloContato.Apresentacao
             return RedirectToAction(nameof(Listar));
         }
 
+        [HttpGet]
+        public ActionResult Editar(Guid id)
+        {
+            Result<DetalhesContatoDto> resultado = servicoContato.SelecionarPorId(id);
+
+            if (resultado.IsFailed)
+            {
+                TempData.AddErrorMessage(resultado);
+
+                return RedirectToAction(nameof(Listar));
+            }
+
+            EditarContatoViewModels editarVm = mapeador.Map<EditarContatoViewModels>(resultado.Value);
+
+            return View(editarVm);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(EditarContatoViewModels editarVm)
+        {
+            if (!ModelState.IsValid)
+                return View(editarVm);
+
+            EditarContatoDto dto = mapeador.Map<EditarContatoDto>(editarVm);
+
+            Result resultado = servicoContato.Editar(dto);
+
+            if (resultado.IsFailed)
+            {
+                ModelState.AddModelError(resultado);
+
+                return View(editarVm);
+            }
+
+            return RedirectToAction(nameof(Listar));
+        }
+
     }
 }

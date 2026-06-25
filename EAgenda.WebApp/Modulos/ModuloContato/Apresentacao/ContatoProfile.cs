@@ -9,7 +9,8 @@ public class ContatoProfile : Profile
     {
         CreateMap<ListarContatosDto, ListarContatosViewModels>();
         CreateMap<CadastrarContatoViewModels, CadastrarContatoDto>();
-
+        CreateMap<EditarContatoViewModels, EditarContatoDto>();
+        CreateMap<DetalhesContatoDto, EditarContatoViewModels>();
 
     }
 }

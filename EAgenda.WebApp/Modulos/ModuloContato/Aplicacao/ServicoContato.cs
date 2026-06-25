@@ -38,6 +38,39 @@ public class ServicoContato
         return Result.Ok();
     }
 
+    public Result Editar(EditarContatoDto dto)
+    {
+        Contato? contato = repositorioContato.SelecionarPorId(dto.Id);
+
+        if (contato == null)
+            return Result.Fail("Contato não encontrado.");
+
+        string telefoneNormalizado = NormalizarTelefone(dto.Telefone);
+        string emailNormalizado = NormalizarEmail(dto.Email);
+
+        if (ExisteContatoTelefone(telefoneNormalizado, dto.Id))
+            return Falha(nameof(dto.Telefone), "Já existe um contato com esse telefone.");
+
+        if (ExisteContatoEmail(emailNormalizado, dto.Id))
+            return Falha(nameof(dto.Email), "Já existe um contato com esse e-mail.");
+
+        Contato contatoAtualizado = new Contato(
+            dto.Nome,
+            emailNormalizado,
+            telefoneNormalizado,
+            dto.Cargo,
+            dto.Empresa
+        );
+
+        Result resultadoValidacao = ValidarEntidade(contatoAtualizado);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        repositorioContato.Editar(dto.Id, contatoAtualizado);
+
+        return Result.Ok();
+    }
 
     public List<ListarContatosDto> SelecionarTodos()
     {
