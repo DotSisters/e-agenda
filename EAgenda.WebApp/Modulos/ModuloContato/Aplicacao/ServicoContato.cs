@@ -1,4 +1,3 @@
-using System;
 using EAgenda.WebApp.Modulos.ModuloContato.Dominio;
 using FluentResults;
 
@@ -72,6 +71,18 @@ public class ServicoContato
         return Result.Ok();
     }
 
+    public Result Excluir(Guid id)
+    {
+        Contato? contato = repositorioContato.SelecionarPorId(id);
+
+        if (contato == null)
+            return Result.Fail("Contato não encontrado.");
+
+        repositorioContato.Excluir(id);
+
+        return Result.Ok();
+    }
+
     public List<ListarContatosDto> SelecionarTodos()
     {
         return repositorioContato
@@ -130,7 +141,6 @@ public class ServicoContato
             );
     }
 
-
     private string NormalizarTelefone(string telefone)
     {
         return Contato.RemoverFormatacao(telefone);
@@ -147,5 +157,4 @@ public class ServicoContato
                 NormalizarTelefone(c.Telefone) == telefoneNormalizado
             );
     }
-
 }

@@ -52,3 +52,12 @@ public record EditarContatoViewModels(
     [StringLength(100, ErrorMessage = "O campo \"Empresa\" deve conter no máximo 100 caracteres.")]
     string? Empresa
 );
+
+public record ExcluirContatoViewModels(
+    Guid Id,
+    string Nome,
+    string Email,
+    string Telefone,
+    string Cargo,
+    string Empresa
+);

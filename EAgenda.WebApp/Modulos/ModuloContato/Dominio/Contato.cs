@@ -56,7 +56,6 @@ public class Contato : EntidadeBase<Contato>
         {
             MailAddress endereco = new MailAddress(Email);
 
-            // opcional: garantir que o endereço informado seja exatamente igual ao normalizado
             if (endereco.Address != Email)
                 erros.Add("O campo \"Email\" possui formato inválido.");
         }
