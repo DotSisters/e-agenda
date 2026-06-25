@@ -13,7 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modulos/" />
+    <Folder Include="Modulos\ModuloContato\Aplicacao\" />
+    <Folder Include="Modulos\ModuloContato\Apresentacao\Views\" />
+    <Folder Include="Modulos\ModuloContato\Dominio\" />
+    <Folder Include="Modulos\ModuloContato\Infra\" />
   </ItemGroup>
 
 </Project>
