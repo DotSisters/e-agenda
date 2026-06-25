@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modulos/" />
+    <Folder Include="Modulos/ModuloCompromisso/Apresentacao/Views/" />
+    <Folder Include="Modulos/ModuloCompromisso/Dominio/" />
+    <Folder Include="Modulos/ModuloCompromisso/Infra/" />
   </ItemGroup>
 
 </Project>
