@@ -18,6 +18,7 @@ public record ListarCompromissosDto(
 );
 
 public record CadastrarCompromissoDto(
+    Guid Id,
     string Assunto,
     DateOnly DataOcorrencia,
     TimeOnly HoraInicio,
@@ -29,7 +30,15 @@ public record CadastrarCompromissoDto(
 );
 
 public record EditarCompromissoDto(
-
+    Guid Id,
+    string Assunto,
+    DateOnly DataOcorrencia,
+    TimeOnly HoraInicio,
+    TimeOnly HoraTermino,
+    TipoCompromisso Tipo,
+    string? Local,
+    string? Link,
+    Guid? ContatoId
 );
 
 public record DetalhesCompromissoDto(

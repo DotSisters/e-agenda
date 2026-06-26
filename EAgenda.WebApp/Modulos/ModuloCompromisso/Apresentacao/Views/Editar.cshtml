@@ -1,0 +1,106 @@
+﻿@using EAgenda.WebApp.Modulos.ModuloCompromisso.Apresentacao.Views
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "📝 Editar Compromisso";
+  ViewBag.Info = "Atualize informações desejadas deste compromisso.";
+}
+
+@model EditarCompromissoViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+      asp-action="Editar" asp-route-id="@Model.Id" method="post">
+  <div asp-validation-summary="ModelOnly" class="text-danger small fw-semibold mb-3"></div>
+
+  <div class="mb-3">
+    <label asp-for="Assunto" class="form-label fw-semibold text-primary text-uppercase small">Assunto</label>
+    <input asp-for="Assunto" type="text" class="form-control">
+    <span asp-validation-for="Assunto" class="text-danger small fw-semibold"></span>
+  </div>
+
+  <div class="mb-4">
+    <label asp-for="DataOcorrencia" class="form-label fw-semibold text-primary text-uppercase small">Data</label>
+    <input asp-for="DataOcorrencia" type="date" class="form-control"
+           min="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")">
+    <span asp-validation-for="DataOcorrencia" class="text-danger small fw-semibold"></span>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <label asp-for="HoraInicio" class="form-label fw-semibold text-primary text-uppercase small">Hora de
+        Início</label>
+        <input asp-for="HoraInicio" class="form-control imput-form" type="time" />
+        <span asp-validation-for="HoraInicio" class="text-danger small fw-semibold"></span>
+      </div>
+      <div class="col-md-6">
+        <label asp-for="HoraTermino" class="form-label fw-semibold text-primary text-uppercase small">Hora de
+          Término</label>
+          <input asp-for="HoraTermino" class="form-control imput-form" type="time" />
+          <span asp-validation-for="HoraTermino" class="text-danger small fw-semibold"></span>
+        </div>
+      </div>
+
+      <div class="form-group d-grid gap-2 mb-3">
+        <label class="form-label fw-semibold text-primary text-uppercase small">Tipo do Compromisso</label>
+
+        <div class="form-check">
+          <input class="form-check-input imput-form" type="radio" asp-for="Tipo" value="Presencial" id="tipoPresencial" />
+          <label class="form-check-label" for="tipoPresencial">Presencial</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input imput-form" type="radio" asp-for="Tipo" value="Remoto" id="tipoRemoto" />
+          <label class="form-check-label" for="tipoRemoto">Remoto</label>
+        </div>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3" id="campoLocal">
+        <label asp-for="Local" class="form-label fw-semibold text-primary text-uppercase small">Local</label>
+        <input asp-for="Local" class="form-control imput-form" />
+        <span asp-validation-for="Local" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3" id="campoLink">
+        <label asp-for="Link" class="form-label fw-semibold text-primary text-uppercase small">Link</label>
+        <input asp-for="Link" class="form-control imput-form" />
+        <span asp-validation-for="Link" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+        <label asp-for="ContatoId" class="form-label fw-semibold text-primary text-uppercase small">Contato
+          (opcional)</label>
+          <select asp-for="ContatoId" class="form-select">
+            <option value="">Nenhum</option>
+            @if (Model.Contatos is not null)
+            {
+              @foreach (OpcaoContatoViewModel Contato in Model.Contatos)
+              {
+                <option value="@Contato.Id">@Contato.Nome</option>
+              }
+            }
+          </select>
+          <span asp-validation-for="ContatoId" class="text-danger small fw-semibold"></span>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+          <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+        </div>
+
+
+      </form>
+
+      <script>
+        function toggleCampos() {
+          const presencial = document.getElementById("tipoPresencial").checked;
+          document.getElementById("campoLocal").classList.toggle("d-none", !presencial);
+          document.getElementById("campoLink").classList.toggle("d-none", presencial);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          toggleCampos();
+
+          document.getElementById("tipoPresencial").addEventListener("change", toggleCampos);
+          document.getElementById("tipoRemoto").addEventListener("change", toggleCampos);
+        });
+      </script>

@@ -50,7 +50,33 @@ public record CadastrarCompromissoViewModel(
 );
 
 public record EditarCompromissoViewModel(
+    Guid Id,
 
+    [Required(ErrorMessage = "O campo \"Assunto\" é obrigatório.")]
+    [MinLength(2, ErrorMessage = "O campo \"Assunto\" precisa ter no mínimo 2 caracteres.")]
+    [MaxLength(100, ErrorMessage = "O campo \"Assunto\" precisa ter no máximo 100 caracteres.")]
+    string Assunto,
+
+    [Required(ErrorMessage = "O campo \"Data de Ocorrência\" é obrigatório.")]
+    DateOnly DataOcorrencia,
+
+    [Required(ErrorMessage = "O campo \"Hora de Início\" é obrigatório.")]
+    TimeOnly HoraInicio,
+
+    [Required(ErrorMessage = "O campo \"Hora de Término\" é obrigatório.")]
+    TimeOnly HoraTermino,
+
+    [Required(ErrorMessage = "O campo \"Tipo do Compromisso\" é obrigatório.")]
+    TipoCompromisso Tipo,
+
+    string Local,
+
+    string Link,
+
+    [ValidateNever]
+    List<OpcaoContatoViewModel> Contatos,
+
+    Guid? ContatoId = null
 );
 
 public record ExcluirCompromissoViewModel(

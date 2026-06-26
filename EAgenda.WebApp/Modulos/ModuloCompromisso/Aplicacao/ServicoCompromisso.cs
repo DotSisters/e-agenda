@@ -14,6 +14,7 @@ public class ServicoCompromisso
         this.repositorioCompromisso = repositorioCompromisso;
         this.repositorioContato = repositorioContato;
     }
+
     public Result Cadastrar(CadastrarCompromissoDto dto)
     {
         Contato? contatoSelecionado = null;
@@ -23,7 +24,7 @@ public class ServicoCompromisso
             contatoSelecionado = repositorioContato.SelecionarPorId(dto.ContatoId.Value);
 
             if (contatoSelecionado is null)
-                return Falha(nameof(dto.ContatoId), "O contato selecionado não foi encontrado.");
+                return Falha(nameof(dto.ContatoId), "Selecione um contato válido.");
         }
 
         if (dto.HoraTermino <= dto.HoraInicio)
@@ -52,6 +53,54 @@ public class ServicoCompromisso
             return resultadoValidacao;
 
         repositorioCompromisso.Cadastrar(novoCompromisso);
+
+        return Result.Ok();
+    }
+
+
+    public Result Editar(EditarCompromissoDto dto)
+    {
+        Compromisso? compromisso = repositorioCompromisso.SelecionarPorId(dto.Id);
+
+        if (compromisso == null)
+            return Result.Fail("Compromisso não encontrado.");
+
+        Contato? contatoSelecionado = null;
+
+        if (dto.ContatoId.HasValue)
+        {
+            contatoSelecionado = repositorioContato.SelecionarPorId(dto.ContatoId.Value);
+
+            if (contatoSelecionado is null)
+                return Falha(nameof(dto.ContatoId), "Selecione um contato válido.");
+        }
+
+        if (dto.HoraTermino <= dto.HoraInicio)
+            return Falha(nameof(dto.HoraInicio), "O horário de término deve ser após o horário de início.");
+
+        if (ExisteCompromissoComMesmoHorario(dto.HoraInicio, dto.DataOcorrencia))
+            return Falha(nameof(dto.HoraInicio), "Você já possui um compromisso neste horário.");
+
+        bool isRemote = false;
+        if (dto.Tipo == TipoCompromisso.Remoto) isRemote = true;
+
+        Compromisso compromissoAtualizado = new Compromisso(
+            dto.Assunto,
+            dto.DataOcorrencia,
+            dto.HoraInicio,
+            dto.HoraTermino,
+            isRemote,
+            dto.Local ?? string.Empty,
+            dto.Link ?? string.Empty,
+            contatoSelecionado
+        );
+
+        Result resultadoValidacao = ValidarEntidade(compromissoAtualizado);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        repositorioCompromisso.Editar(dto.Id, compromissoAtualizado);
 
         return Result.Ok();
     }
@@ -94,7 +143,6 @@ public class ServicoCompromisso
             compromisso.Contato?.Nome
         ));
     }
-
 
     public List<OpcaoContatoDto> SelecionarContatos()
     {

@@ -56,6 +56,43 @@ public class CompromissoController(ServicoCompromisso servicoCompromisso, IMappe
         return RedirectToAction(nameof(Listar));
     }
 
+    [HttpGet]
+    public ActionResult Editar(Guid id)
+    {
+        Result<DetalhesCompromissoDto> resultado = servicoCompromisso.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        EditarCompromissoViewModel editarVm =
+            mapeador.Map<EditarCompromissoViewModel>(resultado.Value) with { Contatos = SelecionarContatos() };
+
+        return View(editarVm);
+    }
+
+    [HttpPost]
+    public ActionResult Editar(EditarCompromissoViewModel editarVm)
+    {
+        if (!ModelState.IsValid)
+            return View(editarVm with { Contatos = SelecionarContatos() });
+
+        EditarCompromissoDto dto = mapeador.Map<EditarCompromissoDto>(editarVm);
+        Result resultado = servicoCompromisso.Editar(dto);
+
+        if (resultado.IsFailed)
+        {
+            ModelState.AddModelError(resultado);
+
+            return View(editarVm with { Contatos = SelecionarContatos() });
+        }
+
+        return RedirectToAction(nameof(Listar));
+    }
+
     private List<OpcaoContatoViewModel> SelecionarContatos()
     {
         List<OpcaoContatoDto> dtos = servicoCompromisso.SelecionarContatos();
