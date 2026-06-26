@@ -1,8 +1,7 @@
 ﻿@{
 Layout = "_Layout";
 ViewBag.Titulo = "🏷️ Categorias";
-ViewBag.Info = "Cadastre, visualize e gerencie categorias de tarefas.";
-
+ViewBag.Info = "Cadastre, visualize e gerencie categorias.";
 ViewBag.TextoBotao = "Cadastrar Categoria";
 ViewBag.ControllerBotao = "Categoria";
 ViewBag.ActionBotao = "Cadastrar";
@@ -10,52 +9,48 @@ ViewBag.ActionBotao = "Cadastrar";
 
 @model List<ListarCategoriasViewModels>;
 
-    <div class="card border-primary-subtle rounded-4 shadow-sm mx-auto p-4 bg-transparent">
+    @if (TempData["MensagemErro"] is string mensagemErro)
+    {
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+    }
 
-        @if (TempData["MensagemErro"] is string mensagemErro)
+    @if (Model.Count == 0)
+    {
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhuma categoria cadastrada.
+    </div>
+    }
+    else
+    {
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+        @foreach (ListarCategoriasViewModels c in Model)
         {
-        <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
-            @mensagemErro
-        </div>
-        }
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                        <h5 class="card-title mb-0">@c.Titulo</h5>
+                        <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
+                    </div>
 
-        @if (Model.Count == 0)
-        {
-        <div class="alert alert-primary border-start border-primary border-2 rounded-3" role="alert">
-            Nenhuma categoria cadastrada.
-        </div>
-        }
-        else
-        {
-        <div class="table-responsive tabela-container mt-3 mb-3">
-            <table class="table table-hover table-bordered align-middle bg-white tabela-modulo">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        @* <th>Despesa</th> *@
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (ListarCategoriasViewModels c in Model)
-                    {
-                    <tr class="bg-transparent">
-                        <td>@c.Id.ToString().Substring(startIndex: 0, length: 8)</td>
-                        <td>@c.Titulo</td>
-                        @* <td>@c.DespesaDescricao</td>*@
-                        <td>
-                            <div class="d-flex flex-sm-row flex-column justify-content-center align-items-center gap-2">
-                                <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
-                                    asp-route-id="@c.Id">Editar</a>
-                                <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir"
-                                    asp-route-id="@c.Id">Excluir</a>
-                            </div>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                    @* <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Despesa: </dt>
+                        <dd class="col-7 mb-0 text-break">@c.DespesaDescricao</dd>
+                    </dl> *@
+
+                    <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+                        <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a asp-action="excluir" asp-route-id="@c.Id" class="btn btn-danger" title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         }
     </div>
+    }
