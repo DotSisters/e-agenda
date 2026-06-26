@@ -1,10 +1,8 @@
 ﻿@using EAgenda.WebApp.Modulos.ModuloCompromisso.Apresentacao.Views
 @{
   Layout = "_Layout";
-  ViewBag.Titulo = "Compromissos";
-
+  ViewBag.Titulo = "📅 Compromissos";
   ViewBag.Info = "Cadastre, visualize e gerencie compromissos.";
-
   ViewBag.TextoBotao = "Cadastrar Compromisso";
   ViewBag.ControllerBotao = "Compromisso";
   ViewBag.ActionBotao = "Cadastrar";
@@ -35,22 +33,22 @@ else
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
               <h5 class="card-title mb-0">@c.Assunto</h5>
-              <span class="badge text-bg-primary rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
+              <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
             </div>
 
             <dl class="row g-2 mb-4">
-              <dt class="col-5 text-secondary fw-semibold">Data:</dt>
-              <dd class="col-7 mb-0 text-break">@c.DataOcorrencia</dd>
+              <dt class="col-5 text-secondary fw-bold">Data:</dt>
+              <dd class="col-7 mb-0 text-break">@c.DataOcorrencia.ToString("dd/MM/yyyy")</dd>
 
-              <dt class="col-5 text-secondary fw-semibold">Horario:</dt>
+              <dt class="col-5 text-secondary fw-bold">Horario:</dt>
               <dd class="col-7 mb-0 text-break">
                 Das @c.HoraInicio.ToString("HH:mm") às @c.HoraTermino.ToString("HH:mm")
               </dd>
 
-              <dt class="col-5 text-secondary fw-semibold">Tipo:</dt>
+              <dt class="col-5 text-secondary fw-bold">Tipo:</dt>
               <dd class="col-7 mb-0 text-break">@c.Tipo</dd>
 
-              <dt class="col-5 text-secondary fw-semibold">
+              <dt class="col-5 text-secondary fw-bold">
                 @(c.Tipo == TipoCompromisso.Presencial ? "Local:" : "Link:")
               </dt>
 
@@ -58,15 +56,17 @@ else
                 @(c.Tipo == TipoCompromisso.Presencial ? c.Local : c.Link)
               </dd>
 
-              <dt class="col-5 text-secondary fw-semibold">Link:</dt>
-              <dd class="col-7 mb-0 text-break">@c.Link</dd>
+              @if (!string.IsNullOrWhiteSpace(c.ContatoNome))
+              {
+                <dt class="col-5 text-secondary fw-bold">Contato:</dt>
+                <dd class="col-7 mb-0 text-break">@c.ContatoNome</dd>
+              }
             </dl>
 
             <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
               <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
                 <i class="bi bi-pencil-square"></i>
               </a>
-
               <a asp-action="excluir" asp-route-id="@c.Id" class="btn btn-danger" title="Excluir">
                 <i class="bi bi-trash"></i>
               </a>

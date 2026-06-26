@@ -2,6 +2,6 @@ namespace EAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
 
 public enum TipoCompromisso
 {
-    Presencial,
-    Remoto
+    Presencial = 1,
+    Remoto = 2
 }

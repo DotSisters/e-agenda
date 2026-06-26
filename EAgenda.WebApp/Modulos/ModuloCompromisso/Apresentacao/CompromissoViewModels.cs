@@ -1,8 +1,13 @@
-
 using System.ComponentModel.DataAnnotations;
 using EAgenda.WebApp.Modulos.ModuloCompromisso.Dominio;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace EAgenda.WebApp.Modulos.ModuloCompromisso.Apresentacao.Views;
+
+public record OpcaoContatoViewModel(
+    Guid Id,
+    string Nome
+);
 
 public record ListarCompromissosViewModel(
     Guid Id,
@@ -12,7 +17,8 @@ public record ListarCompromissosViewModel(
     TimeOnly HoraTermino,
     TipoCompromisso Tipo,
     string Local,
-    string Link
+    string Link,
+    string? ContatoNome
 );
 
 public record CadastrarCompromissoViewModel(
@@ -33,11 +39,14 @@ public record CadastrarCompromissoViewModel(
     [Required(ErrorMessage = "O campo \"Tipo do Compromisso\" é obrigatório.")]
     TipoCompromisso Tipo,
 
-    [Required(ErrorMessage = "O campo \"Local\" é obrigatório.")]
-    string Local,
+    string? Local,
 
-    [Required(ErrorMessage = "O campo \"Local ou Link\" é obrigatório.")]
-    string Link
+    string? Link,
+
+    [ValidateNever]
+    List<OpcaoContatoViewModel> Contatos,
+
+    Guid? ContatoId = null
 );
 
 public record EditarCompromissoViewModel(
