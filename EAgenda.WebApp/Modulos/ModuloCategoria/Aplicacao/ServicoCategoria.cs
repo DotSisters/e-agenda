@@ -42,6 +42,38 @@ public class ServicoCategoria
         return Result.Ok();
     }
 
+    public Result Editar(EditarCategoriaDto dto)
+    {
+        Categoria? produto = repositorioCategoria.SelecionarPorId(dto.Id);
+
+        if (produto == null)
+            return Result.Fail("Categoria não encontrada.");
+
+        string tituloNormalizado = NormalizarTitulo(dto.Titulo);
+
+        if (ExisteCategoriaTitulo(dto.Titulo, dto.Id))
+            return Falha(nameof(dto.Titulo), "Já existe uma categoria com esse título.");
+
+        // Despesa? despesaSelecionada = repositorioDespesa.SelecionarPorId(dto.DespesaId);
+
+        // if (despesaSelecionada == null)
+        //     return Falha(nameof(dto.DespesaId), "Selecione uma despesa válida.");
+
+        Categoria categoriaAtualizada = new Categoria(
+            dto.Titulo
+        // despesaSelecionada
+        );
+
+        Result resultadoValidacao = ValidarEntidade(categoriaAtualizada);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        repositorioCategoria.Editar(dto.Id, categoriaAtualizada);
+
+        return Result.Ok();
+    }
+
     public List<ListarCategoriasDto> SelecionarTodos()
     {
         return repositorioCategoria

@@ -23,3 +23,16 @@ public record CadastrarCategoriaViewModels(
 
 // [ValidateNever] List<OpcaoDespesaViewModels> Despesas
 );
+
+public record EditarCategoriaViewModels(
+    Guid Id,
+
+    [Required(ErrorMessage = "O campo \"Categoria\" deve ser preenchido.")]
+    [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo \"Categoria\" deve conter entre 3 e 100 caracteres.")]
+    string Titulo
+
+// [Required(ErrorMessage = "O campo \"Despesa\" deve ser preenchido.")]
+// string DespesaId,
+
+// [ValidateNever] List<OpcaoDespesaViewModels> Despesas
+);

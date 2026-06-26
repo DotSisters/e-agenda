@@ -14,6 +14,12 @@ public record CadastrarCategoriaDto(
 // Guid DespesaId
 );
 
+public record EditarCategoriaDto(
+    Guid Id,
+    string Titulo
+// Guid DespesaId
+);
+
 public record DetalhesCategoriasDto(
     Guid Id,
     string Titulo //,
