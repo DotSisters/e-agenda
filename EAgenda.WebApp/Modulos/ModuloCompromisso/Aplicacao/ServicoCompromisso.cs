@@ -57,7 +57,6 @@ public class ServicoCompromisso
         return Result.Ok();
     }
 
-
     public Result Editar(EditarCompromissoDto dto)
     {
         Compromisso? compromisso = repositorioCompromisso.SelecionarPorId(dto.Id);
@@ -101,6 +100,18 @@ public class ServicoCompromisso
             return resultadoValidacao;
 
         repositorioCompromisso.Editar(dto.Id, compromissoAtualizado);
+
+        return Result.Ok();
+    }
+
+    public Result Excluir(Guid id)
+    {
+        Compromisso? compromisso = repositorioCompromisso.SelecionarPorId(id);
+
+        if (compromisso == null)
+            return Result.Fail("Compromisso não encontrado.");
+
+        repositorioCompromisso.Excluir(id);
 
         return Result.Ok();
     }

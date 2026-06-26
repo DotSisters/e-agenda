@@ -80,5 +80,14 @@ public record EditarCompromissoViewModel(
 );
 
 public record ExcluirCompromissoViewModel(
-
+    Guid Id,
+    string Assunto,
+    DateOnly DataOcorrencia,
+    TimeOnly HoraInicio,
+    TimeOnly HoraTermino,
+    TipoCompromisso Tipo,
+    string Local,
+    string Link,
+    Guid? ContatoId,
+    string? ContatoNome
 );

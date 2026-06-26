@@ -17,7 +17,7 @@ public class CompromissoProfile : Profile
             .ForCtorParam("ContatoId", opt => opt.MapFrom(src => src.ContatoId))
             .ForCtorParam("Contatos", opt => opt.MapFrom(_ => new List<OpcaoContatoViewModel>()));
 
-        //      CreateMap<DetalhesCompromissoDto, ExcluirCompromissoViewModel>()
-        // .ForMember(dest => dest.ContatoNome, opt => opt.MapFrom(src => src.ContatoNome));
+        CreateMap<DetalhesCompromissoDto, ExcluirCompromissoViewModel>()
+            .ForMember(dest => dest.ContatoNome, opt => opt.MapFrom(src => src.ContatoNome));
     }
 }

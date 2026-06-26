@@ -93,6 +93,33 @@ public class CompromissoController(ServicoCompromisso servicoCompromisso, IMappe
         return RedirectToAction(nameof(Listar));
     }
 
+    [HttpGet]
+    public ActionResult Excluir(Guid id)
+    {
+        Result<DetalhesCompromissoDto> resultado = servicoCompromisso.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        ExcluirCompromissoViewModel excluirVm = mapeador.Map<ExcluirCompromissoViewModel>(resultado.Value);
+
+        return View(excluirVm);
+    }
+
+    [HttpPost]
+    public ActionResult Excluir(ExcluirCompromissoViewModel excluirVm)
+    {
+        Result resultado = servicoCompromisso.Excluir(excluirVm.Id);
+
+        if (resultado.IsFailed)
+            TempData.AddErrorMessage(resultado);
+
+        return RedirectToAction(nameof(Listar));
+    }
     private List<OpcaoContatoViewModel> SelecionarContatos()
     {
         List<OpcaoContatoDto> dtos = servicoCompromisso.SelecionarContatos();
