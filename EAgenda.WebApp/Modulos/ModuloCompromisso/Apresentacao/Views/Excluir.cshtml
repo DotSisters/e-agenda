@@ -1,0 +1,57 @@
+﻿@using EAgenda.WebApp.Modulos.ModuloCompromisso.Apresentacao.Views
+
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "🗑️ Excluir Compromisso";
+  ViewBag.Info = "Confirme a exclusão deste compromisso.";
+}
+
+@model ExcluirCompromissoViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+      asp-action="Excluir" asp-route-id="@Model.Id" method="post">
+  <div class="alert alert-warning border-start border-primary border-1 rounded-3" role="alert">
+    Deseja realmente excluir este compromisso?
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Assunto" class="form-label fw-semibold text-primary text-uppercase small">Assunto</label>
+    <input asp-for="Assunto" type="text" class="form-control" disabled>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="DataOcorrencia" class="form-label fw-semibold text-primary text-uppercase small">Data</label>
+    <input asp-for="DataOcorrencia" type="date" class="form-control" disabled>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label asp-for="HoraInicio" class="form-label fw-semibold text-primary text-uppercase small">Hora de
+        Início</label>
+        <input asp-for="HoraInicio" class="form-control imput-form" type="time" disabled />
+      </div>
+      <div class="col-md-6">
+        <label asp-for="HoraTermino" class="form-label fw-semibold text-primary text-uppercase small">Hora de
+          Término</label>
+          <input asp-for="HoraTermino" class="form-control imput-form" type="time" disabled />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label asp-for="Tipo" class="form-label fw-semibold text-primary text-uppercase small">Tipo do Compromisso</label>
+        <input asp-for="Tipo" type="text" class="form-control" disabled>
+      </div>
+
+      @if (!string.IsNullOrWhiteSpace(@Model.ContatoNome))
+      {
+        <div class="mb-3">
+          <label asp-for="ContatoNome" class="form-label fw-semibold text-primary text-uppercase small">Contato</label>
+          <input asp-for="ContatoNome" type="text" class="form-control" disabled>
+        </div>
+      }
+
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+      </div>
+    </form>

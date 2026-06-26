@@ -1,0 +1,79 @@
+﻿@using EAgenda.WebApp.Modulos.ModuloCompromisso.Apresentacao.Views
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "📅 Compromissos";
+  ViewBag.Info = "Cadastre, visualize e gerencie compromissos.";
+  ViewBag.TextoBotao = "Cadastrar Compromisso";
+  ViewBag.ControllerBotao = "Compromisso";
+  ViewBag.ActionBotao = "Cadastrar";
+}
+
+@model List<ListarCompromissosViewModel>;
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+  <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+    @mensagemErro
+  </div>
+}
+
+@if (Model.Count == 0)
+{
+  <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+    Nenhum compromisso cadastrado.
+  </div>
+}
+else
+{
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+    @foreach (ListarCompromissosViewModel c in Model)
+    {
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <h5 class="card-title mb-0">@c.Assunto</h5>
+              <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
+            </div>
+
+            <dl class="row g-2 mb-4">
+              <dt class="col-5 text-secondary fw-bold">Data:</dt>
+              <dd class="col-7 mb-0 text-break">@c.DataOcorrencia.ToString("dd/MM/yyyy")</dd>
+
+              <dt class="col-5 text-secondary fw-bold">Horario:</dt>
+              <dd class="col-7 mb-0 text-break">
+                Das @c.HoraInicio.ToString("HH:mm") às @c.HoraTermino.ToString("HH:mm")
+              </dd>
+
+              <dt class="col-5 text-secondary fw-bold">Tipo:</dt>
+              <dd class="col-7 mb-0 text-break">@c.Tipo</dd>
+
+              <dt class="col-5 text-secondary fw-bold">
+                @(c.Tipo == TipoCompromisso.Presencial ? "Local:" : "Link:")
+              </dt>
+
+              <dd class="col-7 mb-0 text-break">
+                @(c.Tipo == TipoCompromisso.Presencial ? c.Local : c.Link)
+              </dd>
+
+              @if (!string.IsNullOrWhiteSpace(c.ContatoNome))
+              {
+                <dt class="col-5 text-secondary fw-bold">Contato:</dt>
+                <dd class="col-7 mb-0 text-break">@c.ContatoNome</dd>
+              }
+            </dl>
+
+            <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+              <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a asp-action="excluir" asp-route-id="@c.Id" class="btn btn-danger" title="Excluir">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
