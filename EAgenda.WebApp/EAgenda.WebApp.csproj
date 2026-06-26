@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Modulos\ModuloContato\Aplicacao\" />
+    <Folder Include="Modulos\ModuloContato\Apresentacao\Views\" />
+    <Folder Include="Modulos\ModuloContato\Dominio\" />
+    <Folder Include="Modulos\ModuloContato\Infra\" />
     <Folder Include="Modulos/ModuloCompromisso/Apresentacao/Views/" />
     <Folder Include="Modulos/ModuloCompromisso/Dominio/" />
     <Folder Include="Modulos/ModuloCompromisso/Infra/" />
