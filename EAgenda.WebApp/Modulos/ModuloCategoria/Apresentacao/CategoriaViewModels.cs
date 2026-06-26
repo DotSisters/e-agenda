@@ -36,3 +36,10 @@ public record EditarCategoriaViewModels(
 
 // [ValidateNever] List<OpcaoDespesaViewModels> Despesas
 );
+
+public record ExcluirCategoriaViewModels
+{
+    public Guid Id { get; init; }
+    public string Titulo { get; init; } = string.Empty;
+    // public string DespesaDescricao { get; init; } = string.Empty;
+}

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Extensions.Options;
 
 namespace EAgenda.WebApp.Modulos.ModuloCategoria.Aplicacao;

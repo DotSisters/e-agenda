@@ -15,6 +15,9 @@ public class CategoriaProfile : Profile
         CreateMap<DetalhesCategoriasDto, EditarCategoriaViewModels>();
         // .ForCtorParam("DespesaId", opt => opt.MapFrom(src => src.DespesaId))
         // .ForCtorParam("Despesas", opt => opt.MapFrom(_ => new List<OpcaoDespesaViewModels>()));
+
+        CreateMap<DetalhesCategoriasDto, ExcluirCategoriaViewModels>();
+        //    .ForMember(dest => dest.DespesaDescricao, opt => opt.MapFrom(src => src.DespesaDescricao));
     }
 
 }

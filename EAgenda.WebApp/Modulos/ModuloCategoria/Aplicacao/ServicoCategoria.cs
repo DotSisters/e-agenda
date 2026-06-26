@@ -74,6 +74,21 @@ public class ServicoCategoria
         return Result.Ok();
     }
 
+    public Result Excluir(Guid id)
+    {
+        Categoria? categoria = repositorioCategoria.SelecionarPorId(id);
+
+        if (categoria == null)
+            return Result.Fail("Categoria não encontrada.");
+
+        // if (categoria.Despesa != null)
+        //     return Result.Fail("Não é permitido excluir categorias relacionadas a uma despesa.");
+
+        repositorioCategoria.Excluir(id);
+
+        return Result.Ok();
+    }
+
     public List<ListarCategoriasDto> SelecionarTodos()
     {
         return repositorioCategoria

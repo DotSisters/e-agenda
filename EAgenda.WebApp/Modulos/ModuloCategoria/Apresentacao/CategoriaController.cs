@@ -134,5 +134,31 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
     //     return RedirectToAction(nameof(Listar));
     // }
 
+    [HttpGet]
+    public ActionResult Excluir(Guid id)
+    {
+        Result<DetalhesCategoriasDto> resultado = servicoCategoria.SelecionarPorId(id);
 
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        ExcluirCategoriaViewModels excluirVm = mapeador.Map<ExcluirCategoriaViewModels>(resultado.Value);
+
+        return View(excluirVm);
+    }
+
+    [HttpPost]
+    public ActionResult Excluir(ExcluirCategoriaViewModels excluirVm)
+    {
+        Result resultado = servicoCategoria.Excluir(excluirVm.Id);
+
+        if (resultado.IsFailed)
+            TempData.AddErrorMessage(resultado);
+
+        return RedirectToAction(nameof(Listar));
+    }
 }
