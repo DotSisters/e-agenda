@@ -21,7 +21,7 @@ public record CadastrarContatoViewModels(
     string Email,
 
     [Required(ErrorMessage = "O campo \"Telefone\" deve ser preenchido.")]
-    [RegularExpression(@"^\d{10,11}$", ErrorMessage = "O campo \"Telefone\" deve conter entre 10 e 11 dígitos.")]
+    [RegularExpression(@"^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$", ErrorMessage = "O campo \"Telefone\" deve conter entre 10 e 11 dígitos.")]
     string Telefone,
 
     [StringLength(100, ErrorMessage = "O campo \"Cargo\" deve conter no máximo 100 caracteres.")]
