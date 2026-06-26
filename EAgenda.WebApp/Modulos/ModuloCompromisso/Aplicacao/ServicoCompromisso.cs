@@ -41,8 +41,8 @@ public class ServicoCompromisso
             dto.HoraInicio,
             dto.HoraTermino,
             isRemote,
-            dto.Local,
-            dto.Link,
+            dto.Local ?? string.Empty,
+            dto.Link ?? string.Empty,
             contatoSelecionado
         );
 
