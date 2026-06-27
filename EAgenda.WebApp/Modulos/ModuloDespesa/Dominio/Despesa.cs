@@ -6,7 +6,7 @@ namespace EAgenda.WebApp.Modulos.ModuloDespesa.Dominio;
 public class Despesa : EntidadeBase<Despesa>
 {
     public string Descricao { get; set; } = string.Empty;
-    public DateTime Ocorrencia { get; private set; }
+    public DateTime Ocorrencia { get; set; }
     public decimal Valor { get; set; }
     public FormaPagamento Pagamento { get; set; }
     public Categoria? Categoria { get; set; }

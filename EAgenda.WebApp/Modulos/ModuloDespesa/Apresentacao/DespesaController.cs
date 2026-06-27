@@ -60,4 +60,63 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
         return RedirectToAction(nameof(Listar));
     }
 
+    [HttpGet]
+    public ActionResult Editar(Guid id)
+    {
+        Result<DetalhesDespesaDto> resultado = servicoDespesa.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+            return RedirectToAction(nameof(Listar));
+
+        EditarDespesaViewModels editarVm = mapeador.Map<EditarDespesaViewModels>(resultado.Value);
+
+        if (!editarVm.Ocorrencia.HasValue)
+            editarVm = editarVm with { Ocorrencia = DateTime.Today };
+
+        ViewBag.Categorias = new SelectList(
+            servicoDespesa.SelecionarCategorias(),
+            "Id",
+            "Titulo",
+            editarVm.CategoriaId
+        );
+
+        return View(editarVm);
+    }
+
+    [HttpPost]
+    public ActionResult Editar(EditarDespesaViewModels editarVm)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Categorias = new SelectList(
+                servicoDespesa.SelecionarCategorias(),
+                "Id",
+                "Titulo",
+                editarVm.CategoriaId
+            );
+
+            return View(editarVm);
+        }
+
+        EditarDespesaDto dto = mapeador.Map<EditarDespesaDto>(editarVm);
+
+        Result resultado = servicoDespesa.Editar(dto);
+
+        if (resultado.IsFailed)
+        {
+            ModelState.AddModelError(resultado);
+
+            ViewBag.Categorias = new SelectList(
+                servicoDespesa.SelecionarCategorias(),
+                "Id",
+                "Titulo",
+                editarVm.CategoriaId
+            );
+
+            return View(editarVm);
+        }
+
+        return RedirectToAction(nameof(Listar));
+    }
+
 }

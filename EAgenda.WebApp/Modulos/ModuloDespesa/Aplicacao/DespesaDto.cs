@@ -20,6 +20,15 @@ public record CadastrarDespesaDto(
     Guid CategoriaId
 );
 
+public record EditarDespesaDto(
+    Guid Id,
+    string Descricao,
+    DateTime Ocorrencia,
+    decimal Valor,
+    FormaPagamento Pagamento,
+    Guid CategoriaId
+);
+
 public record DetalhesDespesaDto(
     Guid Id,
     string Descricao,

@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+Layout = "_Layout";
+ViewBag.Titulo = "📝 Editar Despesa";
+ViewBag.Info = "Altere os dados da despesa.";
 }
+
+@model EditarDespesaViewModels
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+    asp-action="Editar" method="post">
+
+    <!-- Campo oculto para o Id -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Descricao" class="form-label fw-semibold text-primary text-uppercase small">Descrição</label>
+        <input asp-for="Descricao" type="text" class="form-control" />
+        <span asp-validation-for="Descricao" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Ocorrencia" class="form-label fw-semibold text-primary text-uppercase small">Data</label>
+        <input asp-for="Ocorrencia" type="date" class="form-control"
+            value="@(Model.Ocorrencia.HasValue ? Model.Ocorrencia.Value.ToString(" dd-MM-yyyy") :
+            DateTime.Today.ToString("dd-MM-yyyy"))" />
+        <span asp-validation-for="Ocorrencia" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Valor" class="form-label fw-semibold text-primary text-uppercase small">Valor</label>
+        <input asp-for="Valor" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Valor" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Pagamento" class="form-label fw-semibold text-primary text-uppercase small">Forma de
+            Pagamento</label>
+        <select asp-for="Pagamento" class="form-select">
+            <option value="AVista">À vista</option>
+            <option value="Credito">Crédito</option>
+            <option value="Debito">Débito</option>
+        </select>
+        <span asp-validation-for="Pagamento" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoriaId" class="form-label fw-semibold text-primary text-uppercase small">Categoria</label>
+        <select asp-for="CategoriaId" class="form-select" asp-items="ViewBag.Categorias">
+            <option value="">Selecione uma categoria</option>
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Salvar</button>
+    </div>
+</form>
