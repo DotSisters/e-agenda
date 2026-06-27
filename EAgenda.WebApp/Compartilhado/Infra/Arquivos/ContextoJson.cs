@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using EAgenda.WebApp.Modulos.ModuloCategoria.Dominio;
 using EAgenda.WebApp.Modulos.ModuloContato.Dominio;
+using EAgenda.WebApp.Modulos.ModuloDespesa.Dominio;
 
 namespace EAgenda.WebApp.Compartilhado.Infra.Arquivos;
 
@@ -10,7 +11,7 @@ public sealed class ContextoJson
     public List<Contato> Contatos { get; set; } = new List<Contato>();
     // public List<Compromisso> Compromissos { get; set; } = new List<Categoria>(); -- VERIFICAR
     public List<Categoria> Categorias { get; set; } = new List<Categoria>();
-    // public List<Despesa> Despesas { get; set; } = new List<Despesa>();
+    public List<Despesa> Despesas { get; set; } = new List<Despesa>();
     // public List<Tarefa> Tarefa { get; set; } = new List<Tarefa>();
 
     private readonly string caminhoArquivo;
@@ -61,7 +62,7 @@ public sealed class ContextoJson
         // Compromissos = contextoSalvo.Compromissos;
         Contatos = contextoSalvo.Contatos;
         Categorias = contextoSalvo.Categorias;
-        // Despesas = contextoSalvo.Despesas;
+        Despesas = contextoSalvo.Despesas;
         // Tarefa = contextoSalvo.Tarefa;
     }
 }
