@@ -18,11 +18,26 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
     }
 
     [HttpGet]
+    public ActionResult Detalhes(Guid id)
+    {
+        Result<DetalhesCategoriaComDespesasDto> resultado = servicoCategoria.SelecionarPorIdComDespesas(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+            return RedirectToAction(nameof(Listar));
+        }
+
+        CategoriaComDespesasViewModels detalhesVm = mapeador.Map<CategoriaComDespesasViewModels>(resultado.Value);
+
+        return View(detalhesVm);
+    }
+
+    [HttpGet]
     public ActionResult Cadastrar()
     {
         CadastrarCategoriaViewModels cadastrarVm = new CadastrarCategoriaViewModels(
             string.Empty
-        // SelecionarDespesas()
 
         );
 
@@ -47,20 +62,6 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
         }
 
         return RedirectToAction(nameof(Listar));
-        // if (!ModelState.IsValid)
-        //     return View(cadastrarVm with { Despesas = SelecionarDespesas() });
-        // CadastrarCategoriaDto dto = mapeador.Map<CadastrarCategoriaDto>(cadastrarVm);
-
-        // Result resultado = servicoCategoria.Cadastrar(dto);
-
-        // if (resultado.IsFailed)
-        // {
-        //     ModelState.AddModelError(resultado);
-
-        //     return View(cadastrarVm with { Despesas = SelecionarDespesas() });
-        // }
-
-        // return RedirectToAction(nameof(Listar));
     }
 
     [HttpGet]
@@ -80,21 +81,7 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
 
         return View(editarVm);
     }
-    // {
-    //     Result<DetalhesCategoriaDto> resultado = servicoCategoria.SelecionarPorId(id);
 
-    //     if (resultado.IsFailed)
-    //     {
-    //         TempData.AddErrorMessage(resultado);
-
-    //         return RedirectToAction(nameof(Listar));
-    //     }
-
-    //     // EditarCategoriaViewModels editarVm =
-    //     //     mapeador.Map<EditarCategoriaViewModels>(resultado.Value) with { Despesas = SelecionarDespesas() };
-
-    //     return View(editarVm);
-    // }
 
     [HttpPost]
     public ActionResult Editar(EditarCategoriaViewModels editarVm)
@@ -116,23 +103,6 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
         return RedirectToAction(nameof(Listar));
     }
 
-    // {
-    //     // if (!ModelState.IsValid)
-    //     //     return View(editarVm with { Despesas = SelecionarDespesas() });
-
-    //     EditarCategoriaDto dto = mapeador.Map<EditarCategoriaDto>(editarVm);
-
-    //     Result resultado = servicoCategoria.Editar(dto);
-
-    //     if (resultado.IsFailed)
-    //     {
-    //         ModelState.AddModelError(resultado);
-
-    //         return View(editarVm with { Despesas = SelecionarDespesas() });
-    //     }
-
-    //     return RedirectToAction(nameof(Listar));
-    // }
 
     [HttpGet]
     public ActionResult Excluir(Guid id)

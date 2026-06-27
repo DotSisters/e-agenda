@@ -9,8 +9,7 @@ namespace EAgenda.WebApp.Modulos.ModuloDespesa.Apresentacao
         DateTime Ocorrencia,
         decimal Valor,
         FormaPagamento Pagamento,
-        Guid CategoriaId,
-        string CategoriaNome
+        string CategoriaNomes
     );
 
     public record CadastrarDespesaViewModels(
@@ -28,7 +27,8 @@ namespace EAgenda.WebApp.Modulos.ModuloDespesa.Apresentacao
         FormaPagamento Pagamento,
 
         [Required(ErrorMessage = "É necessário selecionar pelo menos uma categoria.")]
-        Guid CategoriaId
+        [MinLength(1, ErrorMessage = "É necessário selecionar pelo menos uma categoria.")]
+        List<Guid> CategoriaIds
     );
 
     public record EditarDespesaViewModels(
@@ -48,16 +48,16 @@ namespace EAgenda.WebApp.Modulos.ModuloDespesa.Apresentacao
         FormaPagamento Pagamento,
 
         [Required(ErrorMessage = "É necessário selecionar pelo menos uma categoria.")]
-        Guid CategoriaId
+        [MinLength(1, ErrorMessage = "É necessário selecionar pelo menos uma categoria.")]
+        List<Guid> CategoriaIds
     );
 
     public record ExcluirDespesaViewModels(
-    Guid Id,
-    string Descricao,
-    DateTime Ocorrencia,
-    decimal Valor,
-    FormaPagamento Pagamento,
-    Guid CategoriaId,
-    string CategoriaNome
-);
+        Guid Id,
+        string Descricao,
+        DateTime Ocorrencia,
+        decimal Valor,
+        FormaPagamento Pagamento,
+        string CategoriaNomes
+    );
 }

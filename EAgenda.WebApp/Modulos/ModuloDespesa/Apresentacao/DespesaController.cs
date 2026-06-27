@@ -22,7 +22,7 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        ViewBag.Categorias = new SelectList(
+        ViewBag.Categorias = new MultiSelectList(
             servicoDespesa.SelecionarCategorias(),
             "Id",
             "Titulo"
@@ -33,7 +33,7 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
             DateTime.Now,
             0m,
             FormaPagamento.AVista,
-            Guid.Empty
+            new List<Guid>()
         );
 
         return View(cadastrarVm);
@@ -43,7 +43,16 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
     public ActionResult Cadastrar(CadastrarDespesaViewModels cadastrarVm)
     {
         if (!ModelState.IsValid)
+        {
+            ViewBag.Categorias = new MultiSelectList(
+                servicoDespesa.SelecionarCategorias(),
+                "Id",
+                "Titulo",
+                cadastrarVm.CategoriaIds
+            );
+
             return View(cadastrarVm);
+        }
 
         CadastrarDespesaDto dto = mapeador.Map<CadastrarDespesaDto>(cadastrarVm);
 
@@ -53,6 +62,13 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
+
+            ViewBag.Categorias = new MultiSelectList(
+                servicoDespesa.SelecionarCategorias(),
+                "Id",
+                "Titulo",
+                cadastrarVm.CategoriaIds
+            );
 
             return View(cadastrarVm);
         }
@@ -73,11 +89,11 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
         if (!editarVm.Ocorrencia.HasValue)
             editarVm = editarVm with { Ocorrencia = DateTime.Today };
 
-        ViewBag.Categorias = new SelectList(
+        ViewBag.Categorias = new MultiSelectList(
             servicoDespesa.SelecionarCategorias(),
             "Id",
             "Titulo",
-            editarVm.CategoriaId
+            editarVm.CategoriaIds
         );
 
         return View(editarVm);
@@ -88,11 +104,11 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
     {
         if (!ModelState.IsValid)
         {
-            ViewBag.Categorias = new SelectList(
+            ViewBag.Categorias = new MultiSelectList(
                 servicoDespesa.SelecionarCategorias(),
                 "Id",
                 "Titulo",
-                editarVm.CategoriaId
+                editarVm.CategoriaIds
             );
 
             return View(editarVm);
@@ -106,11 +122,11 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
         {
             ModelState.AddModelError(resultado);
 
-            ViewBag.Categorias = new SelectList(
+            ViewBag.Categorias = new MultiSelectList(
                 servicoDespesa.SelecionarCategorias(),
                 "Id",
                 "Titulo",
-                editarVm.CategoriaId
+                editarVm.CategoriaIds
             );
 
             return View(editarVm);

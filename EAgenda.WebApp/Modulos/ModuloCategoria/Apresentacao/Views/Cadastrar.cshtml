@@ -14,18 +14,6 @@ ViewBag.Info = "Registre as informações da nova categoria.";
         <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
     </div>
 
-    @* <div class="mb-3">
-        <label asp-for="DespesaId" class="form-label fw-semibold text-primary text-uppercase small">Despesa</label>
-        <select asp-for="DespesaId" class="form-select">
-            <option value="">Selecione uma despesa</option>
-            @foreach (OpcaoDespesaViewModels despesa in Model.Despesas)
-            {
-            <option value="@despesa.Id">@despesa.Descricao</option>
-            }
-        </select>
-        <span asp-validation-for="DespesaId" class="text-danger small fw-semibold"></span>
-    </div> *@
-
     <div class="d-flex justify-content-end gap-2 mt-4">
         <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
         <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>

@@ -1,35 +1,36 @@
-using Microsoft.Extensions.Options;
 
 namespace EAgenda.WebApp.Modulos.ModuloCategoria.Aplicacao;
 
 public record ListarCategoriasDto(
   Guid Id,
-  string Titulo //,
-//   string DespesaDescricao
+  string Titulo,
+  decimal TotalDespesas = 0m
 );
 
 public record CadastrarCategoriaDto(
     string Titulo
-// Guid DespesaId
 );
 
 public record EditarCategoriaDto(
     Guid Id,
     string Titulo
-// Guid DespesaId
 );
 
 public record DetalhesCategoriasDto(
     Guid Id,
-    string Titulo //,
-                  // Guid DespesaId,
-                  //string DespesaDescricao
+    string Titulo
 );
 
-// public record OpcaoDespesaDto(
-//     Guid Id,
-//     string Descricao,
-//     DataOcorrencia,
-//     Valor,
-//     FormaPagamento
-// ); ?????
+public record DespesaPorCategoriaDto(
+    Guid Id,
+    string Descricao,
+    DateTime Ocorrencia,
+    decimal Valor,
+    EAgenda.WebApp.Modulos.ModuloDespesa.Dominio.FormaPagamento Pagamento
+);
+
+public record DetalhesCategoriaComDespesasDto(
+    Guid Id,
+    string Titulo,
+    List<DespesaPorCategoriaDto> Despesas
+);
