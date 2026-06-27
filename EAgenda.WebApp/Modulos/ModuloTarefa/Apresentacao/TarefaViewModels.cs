@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 namespace EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao;
@@ -13,7 +14,14 @@ public record ListarTarefasViewModel(
 );
 
 public record CadastrarTarefaViewModel(
+    [Required(ErrorMessage = "O campo \"Titulo\" deve ser preenchido.")]
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "O campo \"Titulo\" deve conter entre 2 e 100 caracteres.")]
+    string Titulo,
 
+    [Required(ErrorMessage = "O campo \"Prioridade\" deve ser preenchido.")]
+    PrioridadeTarefa Prioridade
+
+// List<string> Itens
 );
 
 public record EditarTarefaViewModel(

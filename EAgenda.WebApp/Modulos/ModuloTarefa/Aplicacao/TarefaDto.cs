@@ -11,12 +11,12 @@ public record ListarTarefasDto(
     DateOnly? DataConclusao,
     StatusConclusao Status,
     decimal PercentualConcluido
-
 );
 
 public record CadastrarTarefaDto(
-// Guid Id,
-
+    string Titulo,
+    PrioridadeTarefa Prioridade
+// List<string> Itens
 );
 
 public record EditarTarefaDto(
