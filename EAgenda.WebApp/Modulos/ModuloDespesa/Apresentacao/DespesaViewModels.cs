@@ -50,4 +50,14 @@ namespace EAgenda.WebApp.Modulos.ModuloDespesa.Apresentacao
         [Required(ErrorMessage = "É necessário selecionar pelo menos uma categoria.")]
         Guid CategoriaId
     );
+
+    public record ExcluirDespesaViewModels(
+    Guid Id,
+    string Descricao,
+    DateTime Ocorrencia,
+    decimal Valor,
+    FormaPagamento Pagamento,
+    Guid CategoriaId,
+    string CategoriaNome
+);
 }

@@ -119,4 +119,32 @@ public class DespesaController(ServicoDespesa servicoDespesa, IMapper mapeador) 
         return RedirectToAction(nameof(Listar));
     }
 
+    [HttpGet]
+    public ActionResult Excluir(Guid id)
+    {
+        Result<DetalhesDespesaDto> resultado = servicoDespesa.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        ExcluirDespesaViewModels excluirVm = mapeador.Map<ExcluirDespesaViewModels>(resultado.Value);
+
+        return View(excluirVm);
+    }
+
+    [HttpPost]
+    public ActionResult Excluir(ExcluirDespesaViewModels excluirVm)
+    {
+        Result resultado = servicoDespesa.Excluir(excluirVm.Id);
+
+        if (resultado.IsFailed)
+            TempData.AddErrorMessage(resultado);
+
+        return RedirectToAction(nameof(Listar));
+    }
+
 }

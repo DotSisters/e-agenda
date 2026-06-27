@@ -74,6 +74,18 @@ public class ServicoDespesa
         return Result.Ok();
     }
 
+    public Result Excluir(Guid id)
+    {
+        Despesa? despesa = repositorioDespesa.SelecionarPorId(id);
+
+        if (despesa == null)
+            return Result.Fail("Despesa não encontrada.");
+
+        repositorioDespesa.Excluir(id);
+
+        return Result.Ok();
+    }
+
 
     public List<ListarDespesasDto> SelecionarTodos()
     {
@@ -104,7 +116,8 @@ public class ServicoDespesa
             despesa.Ocorrencia,
             despesa.Valor,
             despesa.Pagamento,
-            despesa.Categoria.Id
+            despesa.Categoria.Id,
+            despesa.Categoria?.Titulo ?? string.Empty
         ));
     }
 
