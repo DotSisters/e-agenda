@@ -120,16 +120,16 @@ public class ServicoCompromisso
     {
         return repositorioCompromisso
             .SelecionarTodos()
-            .Select(m => new ListarCompromissosDto(
-                m.Id,
-                m.Assunto,
-                m.DataOcorrencia,
-                m.HoraInicio,
-                m.HoraTermino,
-                m.Tipo,
-                m.Local,
-                m.Link,
-                m.Contato?.Nome
+            .Select(c => new ListarCompromissosDto(
+                c.Id,
+                c.Assunto,
+                c.DataOcorrencia,
+                c.HoraInicio,
+                c.HoraTermino,
+                c.Tipo,
+                c.Local,
+                c.Link,
+                c.Contato?.Nome
             ))
             .ToList();
     }
