@@ -35,6 +35,9 @@ else
             <h5 class="card-title fw-semibold text-dark medium">@(tarefa.Titulo)</h5>
             <hr class="my-1">
             <dl class="row g-2 mb-2 mt-2">
+              <dt class="col-5 text-secondary fw-bold">Prioridade:</dt>
+              <dd class="col-7 mb-0 text-break">@tarefa.Prioridade</dd>
+
               <dt class="col-5 text-secondary fw-bold">Data criação:</dt>
               <dd class="col-7 mb-0 text-break">@tarefa.DataCriacao.ToString("dd/MM/yyyy")</dd>
               @if (tarefa.Status == StatusConclusao.Concluida)
