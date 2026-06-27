@@ -10,7 +10,6 @@ public class ServicoTarefa
     public ServicoTarefa(IRepositorioTarefa repositorioTarefa)
     {
         this.repositorioTarefa = repositorioTarefa;
-
     }
 
     public Result Cadastrar(CadastrarTarefaDto dto)
@@ -38,6 +37,28 @@ public class ServicoTarefa
         return Result.Ok();
     }
 
+    public Result Editar(EditarTarefaDto dto)
+    {
+        Tarefa? tarefa = repositorioTarefa.SelecionarPorId(dto.Id);
+
+        if (tarefa == null)
+            return Result.Fail("Tarefa não encontrada.");
+
+        Tarefa tarefaAtualizada = new Tarefa(
+            dto.Titulo,
+            dto.Prioridade
+        );
+
+        Result resultadoValidacao = ValidarEntidade(tarefaAtualizada);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        repositorioTarefa.Editar(dto.Id, tarefaAtualizada);
+
+        return Result.Ok();
+    }
+
     public List<ListarTarefasDto> SelecionarTodos()
     {
         return repositorioTarefa
@@ -52,6 +73,22 @@ public class ServicoTarefa
                 t.PercentualConcluido
             ))
             .ToList();
+    }
+
+    public Result<DetalhesTarefaDto> SelecionarPorId(Guid id)
+    {
+        Tarefa? tarefa = repositorioTarefa.SelecionarPorId(id);
+
+        if (tarefa == null)
+            return Result.Fail("Tarefa nao encontrada.");
+
+        return Result.Ok(new DetalhesTarefaDto(
+            tarefa.Id,
+            tarefa.Titulo,
+            tarefa.Prioridade,
+            tarefa.Status,
+            tarefa.PercentualConcluido
+        ));
     }
 
     private static Result ValidarEntidade(Tarefa tarefa)

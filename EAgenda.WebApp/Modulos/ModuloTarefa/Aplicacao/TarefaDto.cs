@@ -20,11 +20,18 @@ public record CadastrarTarefaDto(
 );
 
 public record EditarTarefaDto(
-// Guid Id,
-
+    Guid Id,
+    string Titulo,
+    PrioridadeTarefa Prioridade,
+    StatusConclusao? Status
+// List<string> Itens
 );
 
 public record DetalhesTarefaDto(
-// Guid Id,
-
+    Guid Id,
+    string Titulo,
+    PrioridadeTarefa Prioridade,
+    StatusConclusao? Status,
+    decimal PercentualConcluido
+// List<ItemTarefaDto> Itens
 );

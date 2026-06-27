@@ -1,0 +1,29 @@
+﻿@using EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao
+@using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "📝 Editar Tarefa";
+  ViewBag.Info = "Atualize informações desejadas desta tarefa.";
+}
+
+@model EditarTarefaViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+      asp-action="Editar" asp-route-id="@Model.Id" method="post">
+  <div class="mb-3">
+    <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>
+    <input asp-for="Titulo" type="text" class="form-control">
+    <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Prioridade" class="form-label fw-semibold text-primary text-uppercase small">Prioridade</label>
+    <select asp-for="Prioridade" class="form-select" asp-items="Html.GetEnumSelectList<PrioridadeTarefa>()"></select>
+    <span asp-validation-for="Prioridade" class="text-danger small fw-semibold"></span>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <a class="btn btn-outline-primary rounded-2 px-4" asp-action="Listar">Voltar</a>
+    <button class="btn btn-primary rounded-2 px-4" type="submit">Confirmar</button>
+  </div>
+</form>

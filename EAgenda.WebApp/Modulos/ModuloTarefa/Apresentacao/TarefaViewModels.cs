@@ -25,8 +25,18 @@ public record CadastrarTarefaViewModel(
 );
 
 public record EditarTarefaViewModel(
-// Guid Id,
+    Guid Id,
 
+    [Required(ErrorMessage = "O campo \"Titulo\" deve ser preenchido.")]
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "O campo \"Titulo\" deve conter entre 2 e 100 caracteres.")]
+    string Titulo,
+
+    [Required(ErrorMessage = "O campo \"Prioridade\" deve ser preenchido.")]
+    PrioridadeTarefa Prioridade,
+
+    StatusConclusao? Status
+
+// List<string> Itens
 );
 
 public record ExcluirTarefaViewModel(
