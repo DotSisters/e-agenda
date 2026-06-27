@@ -40,6 +40,10 @@ public record EditarTarefaViewModel(
 );
 
 public record ExcluirTarefaViewModel(
-// Guid Id,
-
+    Guid Id,
+    string Titulo,
+    PrioridadeTarefa Prioridade,
+    StatusConclusao? Status,
+    decimal PercentualConcluido
+// List<ItemTarefaDto> Itens
 );

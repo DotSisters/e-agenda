@@ -59,6 +59,18 @@ public class ServicoTarefa
         return Result.Ok();
     }
 
+    public Result Excluir(Guid id)
+    {
+        Tarefa? compromisso = repositorioTarefa.SelecionarPorId(id);
+
+        if (compromisso == null)
+            return Result.Fail("Tarefa não encontrado.");
+
+        repositorioTarefa.Excluir(id);
+
+        return Result.Ok();
+    }
+
     public List<ListarTarefasDto> SelecionarTodos()
     {
         return repositorioTarefa
