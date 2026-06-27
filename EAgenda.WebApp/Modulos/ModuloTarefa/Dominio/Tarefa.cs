@@ -4,17 +4,17 @@ namespace EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 public class Tarefa : EntidadeBase<Tarefa>
 {
-    public string Titulo { get; private set; } = string.Empty;
+    public string Titulo { get; set; } = string.Empty;
 
-    public PrioridadeTarefa Prioridade { get; private set; }
+    public PrioridadeTarefa Prioridade { get; set; }
 
-    public DateOnly DataCriacao { get; private set; }
+    public DateOnly DataCriacao { get; set; }
 
-    public DateOnly? DataConclusao { get; private set; }
+    public DateOnly? DataConclusao { get; set; }
 
-    public StatusConclusao Status { get; private set; }
+    public StatusConclusao Status { get; set; }
 
-    public decimal PercentualConcluido { get; private set; }
+    public decimal PercentualConcluido { get; set; }
 
     // private readonly List<ItemTarefa> itens = [];
 
