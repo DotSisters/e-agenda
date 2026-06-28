@@ -77,7 +77,7 @@ public class ServicoCompromisso
         if (dto.HoraTermino <= dto.HoraInicio)
             return Falha(nameof(dto.HoraInicio), "O horário de término deve ser após o horário de início.");
 
-        if (ExisteCompromissoComMesmoHorario(dto.HoraInicio, dto.DataOcorrencia))
+        if (ExisteCompromissoComMesmoHorario(dto.HoraInicio, dto.DataOcorrencia, dto.Id))
             return Falha(nameof(dto.HoraInicio), "Você já possui um compromisso neste horário.");
 
         bool isRemote = false;

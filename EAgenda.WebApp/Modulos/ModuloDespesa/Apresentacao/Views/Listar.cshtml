@@ -1,0 +1,78 @@
+﻿@using EAgenda.WebApp.Modulos.ModuloDespesa.Dominio
+@{
+Layout = "_Layout";
+ViewBag.Titulo = "🏷️ Despesas";
+ViewBag.Info = "Cadastre, visualize e gerencie despesas.";
+ViewBag.TextoBotao = "Cadastrar Despesa";
+ViewBag.ControllerBotao = "Despesa";
+ViewBag.ActionBotao = "Cadastrar";
+}
+
+@model List<ListarDespesasViewModels>
+
+    @if (TempData["MensagemErro"] is string mensagemErro)
+    {
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+    }
+
+    @if (Model.Count == 0)
+    {
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhuma despesa cadastrada.
+    </div>
+    }
+    else
+    {
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+        @foreach (ListarDespesasViewModels d in Model)
+        {
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                        <h5 class="card-title mb-0">@d.Descricao</h5>
+                    </div>
+
+                    <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Valor: </dt>
+                        <dd class="col-7 mb-0 text-break">@d.Valor.ToString("C", new
+                            System.Globalization.CultureInfo("pt-BR"))</dd>
+                    </dl>
+
+                    <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Pagamento: </dt>
+                        <dd class="col-7 mb-0 text-break">
+                            @(
+                            d.Pagamento == FormaPagamento.AVista ? "À vista" :
+                            d.Pagamento == FormaPagamento.Credito ? "Crédito" :
+                            "Débito"
+                            )
+                        </dd>
+                    </dl>
+
+                    <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Categorias: </dt>
+                        <dd class="col-7 mb-0 text-break">@d.CategoriaNomes</dd>
+                    </dl>
+
+                    <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Data: </dt>
+                        <dd class="col-7 mb-0 text-break">@d.Ocorrencia.ToString("dd/MM/yyyy")</dd>
+                    </dl>
+
+                    <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+                        <a asp-action="editar" asp-route-id="@d.Id" class="btn btn-primary" title="Editar">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a asp-action="excluir" asp-route-id="@d.Id" class="btn btn-danger" title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
