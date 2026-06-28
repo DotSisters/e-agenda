@@ -18,7 +18,6 @@ public record ListarCompromissosDto(
 );
 
 public record CadastrarCompromissoDto(
-    Guid Id,
     string Assunto,
     DateOnly DataOcorrencia,
     TimeOnly HoraInicio,
