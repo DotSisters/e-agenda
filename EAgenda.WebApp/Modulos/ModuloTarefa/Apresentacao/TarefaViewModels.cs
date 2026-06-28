@@ -1,8 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using EAgenda.WebApp.Modulos.ModuloTarefa.Aplicacao;
 using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 namespace EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao;
 
+// public record ItemTarefaViewModel(
+//     Guid Id,
+//     string Titulo,
+//     StatusConclusao Status
+// );
 public record ListarTarefasViewModel(
     Guid Id,
     string Titulo,
@@ -11,6 +17,12 @@ public record ListarTarefasViewModel(
     DateOnly? DataConclusao,
     StatusConclusao Status,
     decimal PercentualConcluido
+);
+
+public record ListarTarefasPaginaViewModel(
+    string Filtro,
+    PrioridadeTarefa? Prioridade,
+    List<ListarTarefasViewModel> Tarefas
 );
 
 public record CadastrarTarefaViewModel(
@@ -35,7 +47,6 @@ public record EditarTarefaViewModel(
     PrioridadeTarefa Prioridade,
 
     StatusConclusao? Status
-
 // List<string> Itens
 );
 

@@ -1,5 +1,6 @@
 @using EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao
 @using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio
+@model ListarTarefasPaginaViewModel
 @{
   Layout = "_Layout";
   ViewBag.Titulo = "📝 Tarefas";
@@ -7,9 +8,16 @@
   ViewBag.TextoBotao = "Cadastrar Tarefa";
   ViewBag.ControllerBotao = "Tarefa";
   ViewBag.ActionBotao = "Cadastrar";
+
+  string mensagemVazia = Model.Filtro switch
+  {
+    "pendentes" => "Nenhuma tarefa pendente.",
+    "concluidas" => "Nenhuma tarefa concluída.",
+    "prioridade" => "Nenhuma tarefa encontrada para a prioridade selecionada.",
+    _ => "Nenhuma tarefa cadastrada."
+  };
 }
 
-@model List<ListarTarefasViewModel>;
 
 @if (TempData["MensagemErro"] is string mensagemErro)
 {
@@ -18,16 +26,33 @@
   </div>
 }
 
-@if (Model.Count == 0)
+<div class="d-flex flex-wrap gap-2 mb-4 mt-2">
+  <a class="btn btn-outline-primary rounded-2 px-3 @(string.IsNullOrEmpty(Model.Filtro) ? "active" : string.Empty)"
+    asp-action="Listar">Todas</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "pendentes" ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="pendentes">Pendentes</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "concluidas" ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="concluidas">Concluidas</a>
+  @* <div class="filtro-separador" role="separator" aria-hidden="true"></div> *@
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Alta ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Alta">Alta</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Normal ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Normal">Normal</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Baixa ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Baixa">Baixa</a>
+</div>
+
+
+@if (Model.Tarefas.Count == 0)
 {
   <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
-    Nenhuma tarefa cadastrada.
+    @mensagemVazia
   </div>
 }
 else
 {
   <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
-    @foreach (ListarTarefasViewModel tarefa in Model)
+    @foreach (ListarTarefasViewModel tarefa in Model.Tarefas)
     {
       <div class="col">
         <div class="card h-100">

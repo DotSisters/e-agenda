@@ -5,116 +5,119 @@ namespace EAgenda.WebApp.Modulos.ModuloTarefa.Aplicacao;
 
 public class ServicoTarefa
 {
-    private readonly IRepositorioTarefa repositorioTarefa;
+  private readonly IRepositorioTarefa repositorioTarefa;
 
-    public ServicoTarefa(IRepositorioTarefa repositorioTarefa)
-    {
-        this.repositorioTarefa = repositorioTarefa;
-    }
+  public ServicoTarefa(IRepositorioTarefa repositorioTarefa)
+  {
+    this.repositorioTarefa = repositorioTarefa;
+  }
 
-    public Result Cadastrar(CadastrarTarefaDto dto)
-    {
-        Tarefa novaTarefa = new(
-            dto.Titulo,
-            dto.Prioridade
-        );
-        // {
-        //     Itens = dto.Itens
-        //         .Where(i => !string.IsNullOrWhiteSpace(i))
-        //         .Select(i => new ItemTarefa(i))
-        //         .ToList()
-        // };
+  public Result Cadastrar(CadastrarTarefaDto dto)
+  {
+    Tarefa novaTarefa = new(
+        dto.Titulo,
+        dto.Prioridade
+    );
+    // {
+    //     Itens = dto.Itens
+    //         .Where(i => !string.IsNullOrWhiteSpace(i))
+    //         .Select(i => new ItemTarefa(i))
+    //         .ToList()
+    // };
 
-        // tarefa.AtualizarPercentual();
+    // tarefa.AtualizarPercentual();
 
-        Result resultadoValidacao = ValidarEntidade(novaTarefa);
+    Result resultadoValidacao = ValidarEntidade(novaTarefa);
 
-        if (resultadoValidacao.IsFailed)
-            return resultadoValidacao;
+    if (resultadoValidacao.IsFailed)
+      return resultadoValidacao;
 
-        repositorioTarefa.Cadastrar(novaTarefa);
+    repositorioTarefa.Cadastrar(novaTarefa);
 
-        return Result.Ok();
-    }
+    return Result.Ok();
+  }
 
-    public Result Editar(EditarTarefaDto dto)
-    {
-        Tarefa? tarefa = repositorioTarefa.SelecionarPorId(dto.Id);
+  public Result Editar(EditarTarefaDto dto)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(dto.Id);
 
-        if (tarefa == null)
-            return Result.Fail("Tarefa não encontrada.");
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
 
-        Tarefa tarefaAtualizada = new Tarefa(
-            dto.Titulo,
-            dto.Prioridade
-        );
+    Tarefa tarefaAtualizada = new Tarefa(
+        dto.Titulo,
+        dto.Prioridade
+    );
 
-        Result resultadoValidacao = ValidarEntidade(tarefaAtualizada);
+    Result resultadoValidacao = ValidarEntidade(tarefaAtualizada);
 
-        if (resultadoValidacao.IsFailed)
-            return resultadoValidacao;
+    if (resultadoValidacao.IsFailed)
+      return resultadoValidacao;
 
-        repositorioTarefa.Editar(dto.Id, tarefaAtualizada);
+    repositorioTarefa.Editar(dto.Id, tarefaAtualizada);
 
-        return Result.Ok();
-    }
+    return Result.Ok();
+  }
 
-    public Result Excluir(Guid id)
-    {
-        Tarefa? compromisso = repositorioTarefa.SelecionarPorId(id);
+  public Result Excluir(Guid id)
+  {
+    Tarefa? compromisso = repositorioTarefa.SelecionarPorId(id);
 
-        if (compromisso == null)
-            return Result.Fail("Tarefa não encontrado.");
+    if (compromisso == null)
+      return Result.Fail("Tarefa não encontrado.");
 
-        repositorioTarefa.Excluir(id);
+    repositorioTarefa.Excluir(id);
 
-        return Result.Ok();
-    }
+    return Result.Ok();
+  }
 
-    public List<ListarTarefasDto> SelecionarTodos()
-    {
-        return repositorioTarefa
-            .SelecionarTodos()
-            .Select(t => new ListarTarefasDto(
-                t.Id,
-                t.Titulo,
-                t.Prioridade,
-                t.DataCriacao,
-                t.DataConclusao,
-                t.Status,
-                t.PercentualConcluido
-            ))
-            .ToList();
-    }
+  public List<ListarTarefasDto> Listar(StatusConclusao? status = null, PrioridadeTarefa? prioridade = null)
+  {
+    List<Tarefa> tarefas = repositorioTarefa.Filtrar(t =>
+        (!status.HasValue || t.Status == status.Value) &&
+        (!prioridade.HasValue || t.Prioridade == prioridade.Value));
 
-    public Result<DetalhesTarefaDto> SelecionarPorId(Guid id)
-    {
-        Tarefa? tarefa = repositorioTarefa.SelecionarPorId(id);
+    return tarefas
+        .Select(t => new ListarTarefasDto(
+            t.Id,
+            t.Titulo,
+            t.Prioridade,
+            t.DataCriacao,
+            t.DataConclusao,
+            t.Status,
+            t.PercentualConcluido
+        ))
+        .ToList();
+  }
 
-        if (tarefa == null)
-            return Result.Fail("Tarefa nao encontrada.");
+  public Result<DetalhesTarefaDto> SelecionarPorId(Guid id)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(id);
 
-        return Result.Ok(new DetalhesTarefaDto(
-            tarefa.Id,
-            tarefa.Titulo,
-            tarefa.Prioridade,
-            tarefa.Status,
-            tarefa.PercentualConcluido
-        ));
-    }
+    if (tarefa == null)
+      return Result.Fail("Tarefa nao encontrada.");
 
-    private static Result ValidarEntidade(Tarefa tarefa)
-    {
-        List<string> erros = tarefa.Validar();
+    return Result.Ok(new DetalhesTarefaDto(
+        tarefa.Id,
+        tarefa.Titulo,
+        tarefa.Prioridade,
+        tarefa.Status,
+        tarefa.PercentualConcluido
+    ));
+  }
 
-        if (erros.Count == 0)
-            return Result.Ok();
+  private static Result ValidarEntidade(Tarefa tarefa)
+  {
+    List<string> erros = tarefa.Validar();
 
-        return Result.Fail(new Error(erros.First()).WithMetadata("Campo", string.Empty));
-    }
+    if (erros.Count == 0)
+      return Result.Ok();
 
-    private static Result Falha(string campo, string mensagem)
-    {
-        return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
-    }
+    return Result.Fail(new Error(erros.First()).WithMetadata("Campo", string.Empty));
+  }
+
+  private static Result Falha(string campo, string mensagem)
+  {
+    return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
+  }
 }

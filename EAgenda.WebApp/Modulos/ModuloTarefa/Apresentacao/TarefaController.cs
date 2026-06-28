@@ -9,118 +9,135 @@ namespace EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao;
 
 public class TarefaController(ServicoTarefa servicoTarefa, IMapper mapeador) : Controller
 {
-    [HttpGet]
-    public ActionResult Listar()
+  [HttpGet]
+  public ActionResult Listar(string? filtro, PrioridadeTarefa? prioridade)
+  {
+    StatusConclusao? status = filtro switch
     {
-        List<ListarTarefasDto> dtos = servicoTarefa.SelecionarTodos();
-        List<ListarTarefasViewModel> listarVms = mapeador.Map<List<ListarTarefasViewModel>>(dtos);
+      "pendentes" => StatusConclusao.Pendente,
+      "concluidas" => StatusConclusao.Concluida,
+      _ => null
+    };
 
-        return View(listarVms);
+    PrioridadeTarefa? filtroPrioridade = filtro == "prioridade" ? prioridade : null;
+
+    List<ListarTarefasDto> dtos = servicoTarefa.Listar(status, filtroPrioridade);
+    List<ListarTarefasViewModel> tarefas = mapeador.Map<List<ListarTarefasViewModel>>(dtos);
+
+    ListarTarefasPaginaViewModel pagina = new(filtro ?? string.Empty, filtroPrioridade, tarefas);
+
+    return View(pagina);
+  }
+
+
+  [HttpGet]
+  public ActionResult Cadastrar()
+  {
+    CadastrarTarefaViewModel cadastrarVm = new CadastrarTarefaViewModel(
+        string.Empty,
+        PrioridadeTarefa.Normal
+    // []
+    );
+
+    return View(cadastrarVm);
+  }
+
+
+  [HttpPost]
+  public ActionResult Cadastrar(CadastrarTarefaViewModel cadastrarVm)
+  {
+    // List<string> itens = cadastrarVm.Itens
+    //     .Where(i => !string.IsNullOrWhiteSpace(i))
+    //     .ToList();
+
+    // if (!ModelState.IsValid)
+    //     return View(cadastrarVm with { Itens = itens });
+
+    if (!ModelState.IsValid)
+      return View(cadastrarVm);
+
+    CadastrarTarefaDto dto = mapeador.Map<CadastrarTarefaDto>(cadastrarVm);
+
+    Result resultado = servicoTarefa.Cadastrar(dto);
+
+    if (resultado.IsFailed)
+    {
+      ModelState.AddModelError(resultado);
+
+      // return View(cadastrarVm with { Itens = itens });
+      return View(cadastrarVm);
     }
 
-    [HttpGet]
-    public ActionResult Cadastrar()
-    {
-        CadastrarTarefaViewModel cadastrarVm = new CadastrarTarefaViewModel(
-            string.Empty,
-            PrioridadeTarefa.Normal
-        // []
-        );
+    return RedirectToAction(nameof(Listar));
+  }
 
-        return View(cadastrarVm);
+
+  [HttpGet]
+  public ActionResult Editar(Guid id)
+  {
+    Result<DetalhesTarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
+
+    if (resultado.IsFailed)
+    {
+      TempData.AddErrorMessage(resultado);
+
+      return RedirectToAction(nameof(Listar));
     }
 
-    [HttpPost]
-    public ActionResult Cadastrar(CadastrarTarefaViewModel cadastrarVm)
+    EditarTarefaViewModel editarVm =
+        mapeador.Map<EditarTarefaViewModel>(resultado.Value);
+
+    return View(editarVm);
+  }
+
+
+  [HttpPost]
+  public ActionResult Editar(EditarTarefaViewModel editarVm)
+  {
+    if (!ModelState.IsValid)
+      return View(editarVm);
+
+    EditarTarefaDto dto = mapeador.Map<EditarTarefaDto>(editarVm);
+
+    Result resultado = servicoTarefa.Editar(dto);
+
+    if (resultado.IsFailed)
     {
-        // List<string> itens = cadastrarVm.Itens
-        //     .Where(i => !string.IsNullOrWhiteSpace(i))
-        //     .ToList();
+      ModelState.AddModelError(resultado);
 
-        // if (!ModelState.IsValid)
-        //     return View(cadastrarVm with { Itens = itens });
-
-        if (!ModelState.IsValid)
-            return View(cadastrarVm);
-
-        CadastrarTarefaDto dto = mapeador.Map<CadastrarTarefaDto>(cadastrarVm);
-
-        Result resultado = servicoTarefa.Cadastrar(dto);
-
-        if (resultado.IsFailed)
-        {
-            ModelState.AddModelError(resultado);
-
-            // return View(cadastrarVm with { Itens = itens });
-            return View(cadastrarVm);
-        }
-
-        return RedirectToAction(nameof(Listar));
+      return View(editarVm);
     }
 
-    [HttpGet]
-    public ActionResult Editar(Guid id)
+    return RedirectToAction(nameof(Listar));
+  }
+
+
+  [HttpGet]
+  public ActionResult Excluir(Guid id)
+  {
+    Result<DetalhesTarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
+
+    if (resultado.IsFailed)
     {
-        Result<DetalhesTarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
+      TempData.AddErrorMessage(resultado);
 
-        if (resultado.IsFailed)
-        {
-            TempData.AddErrorMessage(resultado);
-
-            return RedirectToAction(nameof(Listar));
-        }
-
-        EditarTarefaViewModel editarVm =
-            mapeador.Map<EditarTarefaViewModel>(resultado.Value);
-
-        return View(editarVm);
+      return RedirectToAction(nameof(Listar));
     }
 
-    [HttpPost]
-    public ActionResult Editar(EditarTarefaViewModel editarVm)
-    {
-        if (!ModelState.IsValid)
-            return View(editarVm);
+    ExcluirTarefaViewModel excluirVm = mapeador.Map<ExcluirTarefaViewModel>(resultado.Value);
 
-        EditarTarefaDto dto = mapeador.Map<EditarTarefaDto>(editarVm);
+    return View(excluirVm);
+  }
 
-        Result resultado = servicoTarefa.Editar(dto);
 
-        if (resultado.IsFailed)
-        {
-            ModelState.AddModelError(resultado);
+  [HttpPost]
+  public ActionResult Excluir(ExcluirTarefaViewModel excluirVm)
+  {
+    Result resultado = servicoTarefa.Excluir(excluirVm.Id);
 
-            return View(editarVm);
-        }
+    if (resultado.IsFailed)
+      TempData.AddErrorMessage(resultado);
 
-        return RedirectToAction(nameof(Listar));
-    }
-
-    [HttpGet]
-    public ActionResult Excluir(Guid id)
-    {
-        Result<DetalhesTarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
-
-        if (resultado.IsFailed)
-        {
-            TempData.AddErrorMessage(resultado);
-
-            return RedirectToAction(nameof(Listar));
-        }
-
-        ExcluirTarefaViewModel excluirVm = mapeador.Map<ExcluirTarefaViewModel>(resultado.Value);
-
-        return View(excluirVm);
-    }
-
-    [HttpPost]
-    public ActionResult Excluir(ExcluirTarefaViewModel excluirVm)
-    {
-        Result resultado = servicoTarefa.Excluir(excluirVm.Id);
-
-        if (resultado.IsFailed)
-            TempData.AddErrorMessage(resultado);
-
-        return RedirectToAction(nameof(Listar));
-    }
+    return RedirectToAction(nameof(Listar));
+  }
 }

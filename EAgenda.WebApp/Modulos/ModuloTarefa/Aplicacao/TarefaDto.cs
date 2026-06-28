@@ -3,6 +3,11 @@ using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 namespace EAgenda.WebApp.Modulos.ModuloTarefa.Aplicacao;
 
+// public record ItemTarefaDto(
+//     Guid Id,
+//     string Titulo,
+//     StatusConclusao Status
+// );
 public record ListarTarefasDto(
     Guid Id,
     string Titulo,
