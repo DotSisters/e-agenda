@@ -6,16 +6,13 @@ public class Categoria : EntidadeBase<Categoria>
 {
     public string Titulo { get; set; } = string.Empty;
 
-    // public Fornecedor Fornecedor { get; set; } = null!;
-
     public Categoria()
     {
     }
 
-    public Categoria(string titulo /*, Despesa despesa*/)
+    public Categoria(string titulo)
     {
         Titulo = titulo;
-        // Despesa = despesa;
     }
 
     public override List<string> Validar()
@@ -38,6 +35,5 @@ public class Categoria : EntidadeBase<Categoria>
         Categoria categoriaAtualizada = entidadeAtualizada;
 
         Titulo = categoriaAtualizada.Titulo;
-        // Despesa = categoriaAtualizada.Despesa;
     }
 }
