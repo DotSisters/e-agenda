@@ -1,0 +1,110 @@
+@using EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao
+@using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio
+@model ListarTarefasPaginaViewModel
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "📝 Tarefas";
+  ViewBag.Info = "Cadastre, visualize e gerencie compromissos.";
+  ViewBag.TextoBotao = "Cadastrar Tarefa";
+  ViewBag.ControllerBotao = "Tarefa";
+  ViewBag.ActionBotao = "Cadastrar";
+
+  string mensagemVazia = Model.Filtro switch
+  {
+    "pendentes" => "Nenhuma tarefa pendente.",
+    "concluidas" => "Nenhuma tarefa concluída.",
+    "prioridade" => "Nenhuma tarefa encontrada para a prioridade selecionada.",
+    _ => "Nenhuma tarefa cadastrada."
+  };
+}
+
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+  <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+    @mensagemErro
+  </div>
+}
+
+<div class="d-flex flex-wrap gap-2 mb-4 mt-2">
+  <a class="btn btn-outline-primary rounded-2 px-3 @(string.IsNullOrEmpty(Model.Filtro) ? "active" : string.Empty)"
+    asp-action="Listar">Todas</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "pendentes" ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="pendentes">Pendentes</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "concluidas" ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="concluidas">Concluidas</a>
+  @* <div class="filtro-separador" role="separator" aria-hidden="true"></div> *@
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Alta ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Alta">Alta</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Normal ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Normal">Normal</a>
+  <a class="btn btn-outline-primary rounded-2 px-3 @(Model.Filtro == "prioridade" && Model.Prioridade == PrioridadeTarefa.Baixa ? "active" : string.Empty)"
+    asp-action="Listar" asp-route-filtro="prioridade" asp-route-prioridade="Baixa">Baixa</a>
+</div>
+
+
+@if (Model.Tarefas.Count == 0)
+{
+  <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+    @mensagemVazia
+  </div>
+}
+else
+{
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+    @foreach (ListarTarefasViewModel tarefa in Model.Tarefas)
+    {
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-semibold text-dark medium">@(tarefa.Titulo)</h5>
+            <hr class="my-1">
+            <dl class="row g-2 mb-2 mt-2">
+              <dt class="col-5 text-secondary fw-bold">Prioridade:</dt>
+              <dd class="col-7 mb-0 text-break">@tarefa.Prioridade</dd>
+
+              <dt class="col-5 text-secondary fw-bold">Data criação:</dt>
+              <dd class="col-7 mb-0 text-break">@tarefa.DataCriacao.ToString("dd/MM/yyyy")</dd>
+              @if (tarefa.Status == StatusConclusao.Concluida)
+              {
+                <dt class="col-5 text-secondary fw-bold">Data conclusão:</dt>
+                <dd class="col-7 mb-0 text-break">
+                  @(tarefa.DataConclusao?.ToString("dd/MM/yyyy") ?? "—")
+                </dd>
+              }
+              <dt class="col-5 text-secondary fw-bold">Status:</dt>
+              <dd class="col-7 mb-0">
+                @switch (tarefa.Status)
+                {
+                  case StatusConclusao.Pendente:
+                    <span class="badge text-bg-warning">@tarefa.Status</span>
+                    break;
+                  case StatusConclusao.Concluida:
+                    <span class="badge text-bg-success">@tarefa.Status</span>
+                    break;
+                  default:
+                    <span class="badge text-bg-secondary">@tarefa.Status</span>
+                    break;
+                }
+              </dd>
+              <dt class="col-5 text-secondary fw-bold">Percentual:</dt>
+              <dd class="col-7 mb-0 text-break">@tarefa.PercentualConcluido%</dd>
+            </dl>
+
+            <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+              <a asp-action="Itens" asp-route-id="@tarefa.Id" class="btn btn-outline-primary" title="Itens">
+                Itens
+              </a>
+              <a asp-action="editar" asp-route-id="@tarefa.Id" class="btn btn-primary" title="Editar">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a asp-action="excluir" asp-route-id="@tarefa.Id" class="btn btn-danger" title="Excluir">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
