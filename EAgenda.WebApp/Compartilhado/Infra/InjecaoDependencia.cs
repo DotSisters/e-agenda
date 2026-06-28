@@ -8,6 +8,7 @@ using EAgenda.WebApp.Modulos.ModuloCompromisso.Infra;
 using EAgenda.WebApp.Modulos.ModuloDespesa.Dominio;
 using EAgenda.WebApp.Modulos.ModuloDespesa.Infra;
 using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
+using EAgenda.WebApp.Compartilhado.Infra.Sql;
 
 namespace EAgenda.WebApp.Compartilhado.Infra;
 
@@ -24,10 +25,12 @@ public static class InjecaoDependencia
             return contextoJson;
         });
 
-        services.AddScoped<IRepositorioContato, RepositorioContatoEmArquivo>();
+        services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+
+        services.AddScoped<IRepositorioContato, RepositorioContatoEmSql>();
         services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmArquivo>();
-        services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
-        services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
+        services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
+        services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmSql>();
         services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmArquivo>();
     }
 }
