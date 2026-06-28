@@ -11,5 +11,19 @@ public class ItemTarefa
     public ItemTarefa(string titulo)
     {
         Titulo = titulo;
+        Status = StatusConclusao.Pendente;
+    }
+
+    public List<string> Validar()
+    {
+        List<string> erros = [];
+
+        if (string.IsNullOrWhiteSpace(Titulo) || Titulo.Length < 2 || Titulo.Length > 100)
+            erros.Add("O campo \"Título\" deve conter entre 2 e 100 caracteres.");
+
+        if (!Enum.IsDefined(typeof(StatusConclusao), Status))
+            erros.Add("O campo \"Status de Conclusão\" deve ser Pendente ou Concluída.");
+
+        return erros;
     }
 }

@@ -12,5 +12,7 @@ public class TarefaProfile : Profile
     CreateMap<EditarTarefaViewModel, EditarTarefaDto>();
     CreateMap<DetalhesTarefaDto, EditarTarefaViewModel>();
     CreateMap<DetalhesTarefaDto, ExcluirTarefaViewModel>();
+    CreateMap<ItemTarefaDto, ItemTarefaViewModel>();
+    CreateMap<CadastrarItemTarefaViewModel, AdicionarItemTarefaDto>();
   }
 }

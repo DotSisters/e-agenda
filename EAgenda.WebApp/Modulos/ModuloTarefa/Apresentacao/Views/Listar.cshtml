@@ -92,6 +92,9 @@ else
             </dl>
 
             <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+              <a asp-action="Itens" asp-route-id="@tarefa.Id" class="btn btn-outline-primary" title="Itens">
+                Itens
+              </a>
               <a asp-action="editar" asp-route-id="@tarefa.Id" class="btn btn-primary" title="Editar">
                 <i class="bi bi-pencil-square"></i>
               </a>

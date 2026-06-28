@@ -12,4 +12,9 @@ public class RepositorioTarefaEmArquivo :
     {
         return contexto.Tarefas;
     }
+
+    public void Salvar()
+    {
+        contexto.Salvar();
+    }
 }

@@ -18,14 +18,6 @@ public class ServicoTarefa
         dto.Titulo,
         dto.Prioridade
     );
-    // {
-    //     Itens = dto.Itens
-    //         .Where(i => !string.IsNullOrWhiteSpace(i))
-    //         .Select(i => new ItemTarefa(i))
-    //         .ToList()
-    // };
-
-    // tarefa.AtualizarPercentual();
 
     Result resultadoValidacao = ValidarEntidade(novaTarefa);
 
@@ -106,6 +98,104 @@ public class ServicoTarefa
     ));
   }
 
+  public Result<ListarItensTarefaDto> ListarItens(Guid tarefaId)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(tarefaId);
+
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
+
+    return Result.Ok(MapearItensTarefa(tarefa));
+  }
+
+  public Result AdicionarItem(AdicionarItemTarefaDto dto)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(dto.TarefaId);
+
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
+
+    ItemTarefa novoItem = new(dto.Titulo);
+
+    Result resultadoValidacao = ValidarItem(novoItem);
+
+    if (resultadoValidacao.IsFailed)
+      return resultadoValidacao;
+
+    tarefa.AdicionarItem(novoItem);
+    repositorioTarefa.Salvar();
+
+    return Result.Ok();
+  }
+
+  public Result RemoverItem(Guid tarefaId, Guid itemId)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(tarefaId);
+
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
+
+    bool itemExiste = tarefa.Itens.Any(i => i.Id == itemId);
+
+    if (!itemExiste)
+      return Result.Fail("Item não encontrado.");
+
+    tarefa.RemoverItem(itemId);
+    repositorioTarefa.Salvar();
+
+    return Result.Ok();
+  }
+
+  public Result ConcluirItem(Guid tarefaId, Guid itemId)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(tarefaId);
+
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
+
+    ItemTarefa? item = tarefa.Itens.FirstOrDefault(i => i.Id == itemId);
+
+    if (item == null)
+      return Result.Fail("Item não encontrado.");
+
+    tarefa.ConcluirItem(itemId);
+    repositorioTarefa.Salvar();
+
+    return Result.Ok();
+  }
+
+  public Result ReabrirItem(Guid tarefaId, Guid itemId)
+  {
+    Tarefa? tarefa = repositorioTarefa.SelecionarPorId(tarefaId);
+
+    if (tarefa == null)
+      return Result.Fail("Tarefa não encontrada.");
+
+    ItemTarefa? item = tarefa.Itens.FirstOrDefault(i => i.Id == itemId);
+
+    if (item == null)
+      return Result.Fail("Item não encontrado.");
+
+    tarefa.ReabrirItem(itemId);
+    repositorioTarefa.Salvar();
+
+    return Result.Ok();
+  }
+
+  private static ListarItensTarefaDto MapearItensTarefa(Tarefa tarefa)
+  {
+    return new ListarItensTarefaDto(
+        tarefa.Id,
+        tarefa.Titulo,
+        tarefa.Status,
+        tarefa.PercentualConcluido,
+        tarefa.DataConclusao,
+        tarefa.Itens
+            .Select(i => new ItemTarefaDto(i.Id, i.Titulo, i.Status))
+            .ToList()
+    );
+  }
+
   private static Result ValidarEntidade(Tarefa tarefa)
   {
     List<string> erros = tarefa.Validar();
@@ -116,8 +206,13 @@ public class ServicoTarefa
     return Result.Fail(new Error(erros.First()).WithMetadata("Campo", string.Empty));
   }
 
-  private static Result Falha(string campo, string mensagem)
+  private static Result ValidarItem(ItemTarefa item)
   {
-    return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
+    List<string> erros = item.Validar();
+
+    if (erros.Count == 0)
+      return Result.Ok();
+
+    return Result.Fail(new Error(erros.First()).WithMetadata("Campo", "Titulo"));
   }
 }

@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using EAgenda.WebApp.Modulos.ModuloTarefa.Aplicacao;
 using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 namespace EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao;
 
-// public record ItemTarefaViewModel(
-//     Guid Id,
-//     string Titulo,
-//     StatusConclusao Status
-// );
+public record ItemTarefaViewModel(
+    Guid Id,
+    string Titulo,
+    StatusConclusao Status
+);
+
 public record ListarTarefasViewModel(
     Guid Id,
     string Titulo,
@@ -32,8 +32,6 @@ public record CadastrarTarefaViewModel(
 
     [Required(ErrorMessage = "O campo \"Prioridade\" deve ser preenchido.")]
     PrioridadeTarefa Prioridade
-
-// List<string> Itens
 );
 
 public record EditarTarefaViewModel(
@@ -47,7 +45,6 @@ public record EditarTarefaViewModel(
     PrioridadeTarefa Prioridade,
 
     StatusConclusao? Status
-// List<string> Itens
 );
 
 public record ExcluirTarefaViewModel(
@@ -56,5 +53,22 @@ public record ExcluirTarefaViewModel(
     PrioridadeTarefa Prioridade,
     StatusConclusao? Status,
     decimal PercentualConcluido
-// List<ItemTarefaDto> Itens
+);
+
+public record CadastrarItemTarefaViewModel(
+    Guid TarefaId,
+
+    [Required(ErrorMessage = "O campo \"Titulo\" deve ser preenchido.")]
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "O campo \"Titulo\" deve conter entre 2 e 100 caracteres.")]
+    string Titulo
+);
+
+public record ListarItensTarefaPaginaViewModel(
+    Guid TarefaId,
+    string TarefaTitulo,
+    StatusConclusao TarefaStatus,
+    decimal PercentualConcluido,
+    DateOnly? DataConclusao,
+    List<ItemTarefaViewModel> Itens,
+    CadastrarItemTarefaViewModel NovoItem
 );

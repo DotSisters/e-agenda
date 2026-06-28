@@ -36,7 +36,6 @@ public class TarefaController(ServicoTarefa servicoTarefa, IMapper mapeador) : C
     CadastrarTarefaViewModel cadastrarVm = new CadastrarTarefaViewModel(
         string.Empty,
         PrioridadeTarefa.Normal
-    // []
     );
 
     return View(cadastrarVm);
@@ -46,13 +45,6 @@ public class TarefaController(ServicoTarefa servicoTarefa, IMapper mapeador) : C
   [HttpPost]
   public ActionResult Cadastrar(CadastrarTarefaViewModel cadastrarVm)
   {
-    // List<string> itens = cadastrarVm.Itens
-    //     .Where(i => !string.IsNullOrWhiteSpace(i))
-    //     .ToList();
-
-    // if (!ModelState.IsValid)
-    //     return View(cadastrarVm with { Itens = itens });
-
     if (!ModelState.IsValid)
       return View(cadastrarVm);
 
@@ -64,7 +56,6 @@ public class TarefaController(ServicoTarefa servicoTarefa, IMapper mapeador) : C
     {
       ModelState.AddModelError(resultado);
 
-      // return View(cadastrarVm with { Itens = itens });
       return View(cadastrarVm);
     }
 
@@ -139,5 +130,114 @@ public class TarefaController(ServicoTarefa servicoTarefa, IMapper mapeador) : C
       TempData.AddErrorMessage(resultado);
 
     return RedirectToAction(nameof(Listar));
+  }
+
+
+  [HttpGet]
+  public ActionResult Itens(Guid id)
+  {
+    Result<ListarItensTarefaDto> resultado = servicoTarefa.ListarItens(id);
+
+    if (resultado.IsFailed)
+    {
+      TempData.AddErrorMessage(resultado);
+
+      return RedirectToAction(nameof(Listar));
+    }
+
+    ListarItensTarefaPaginaViewModel pagina = MapearItensPagina(resultado.Value);
+
+    return View(pagina);
+  }
+
+
+  [HttpPost]
+  public ActionResult AdicionarItem([Bind(Prefix = "NovoItem")] CadastrarItemTarefaViewModel cadastrarVm)
+  {
+    if (!ModelState.IsValid)
+    {
+      Result<ListarItensTarefaDto> resultado = servicoTarefa.ListarItens(cadastrarVm.TarefaId);
+
+      if (resultado.IsFailed)
+      {
+        TempData.AddErrorMessage(resultado);
+
+        return RedirectToAction(nameof(Listar));
+      }
+
+      ListarItensTarefaPaginaViewModel pagina = MapearItensPagina(resultado.Value);
+
+      pagina = pagina with { NovoItem = cadastrarVm };
+
+      return View(nameof(Itens), pagina);
+    }
+
+    AdicionarItemTarefaDto dto = mapeador.Map<AdicionarItemTarefaDto>(cadastrarVm);
+
+    Result resultadoAdicionar = servicoTarefa.AdicionarItem(dto);
+
+    if (resultadoAdicionar.IsFailed)
+    {
+      Result<ListarItensTarefaDto> resultado = servicoTarefa.ListarItens(cadastrarVm.TarefaId);
+
+      ListarItensTarefaPaginaViewModel pagina = MapearItensPagina(resultado.Value);
+
+      pagina = pagina with { NovoItem = cadastrarVm };
+
+      ModelState.AddModelError(resultadoAdicionar);
+
+      return View(nameof(Itens), pagina);
+    }
+
+    return RedirectToAction(nameof(Itens), new { id = cadastrarVm.TarefaId });
+  }
+
+
+  [HttpPost]
+  public ActionResult RemoverItem(Guid tarefaId, Guid itemId)
+  {
+    Result resultado = servicoTarefa.RemoverItem(tarefaId, itemId);
+
+    if (resultado.IsFailed)
+      TempData.AddErrorMessage(resultado);
+
+    return RedirectToAction(nameof(Itens), new { id = tarefaId });
+  }
+
+
+  [HttpPost]
+  public ActionResult ConcluirItem(Guid tarefaId, Guid itemId)
+  {
+    Result resultado = servicoTarefa.ConcluirItem(tarefaId, itemId);
+
+    if (resultado.IsFailed)
+      TempData.AddErrorMessage(resultado);
+
+    return RedirectToAction(nameof(Itens), new { id = tarefaId });
+  }
+
+
+  [HttpPost]
+  public ActionResult ReabrirItem(Guid tarefaId, Guid itemId)
+  {
+    Result resultado = servicoTarefa.ReabrirItem(tarefaId, itemId);
+
+    if (resultado.IsFailed)
+      TempData.AddErrorMessage(resultado);
+
+    return RedirectToAction(nameof(Itens), new { id = tarefaId });
+  }
+
+  private ListarItensTarefaPaginaViewModel MapearItensPagina(ListarItensTarefaDto dto)
+  {
+    return new ListarItensTarefaPaginaViewModel(
+        dto.TarefaId,
+        dto.TarefaTitulo,
+        dto.TarefaStatus,
+        dto.PercentualConcluido,
+        dto.DataConclusao,
+        mapeador.Map<List<ItemTarefaViewModel>>(dto.Itens),
+        new CadastrarItemTarefaViewModel(dto.TarefaId, string.Empty)
+    );
   }
 }

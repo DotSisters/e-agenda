@@ -3,11 +3,12 @@ using EAgenda.WebApp.Modulos.ModuloTarefa.Dominio;
 
 namespace EAgenda.WebApp.Modulos.ModuloTarefa.Aplicacao;
 
-// public record ItemTarefaDto(
-//     Guid Id,
-//     string Titulo,
-//     StatusConclusao Status
-// );
+public record ItemTarefaDto(
+    Guid Id,
+    string Titulo,
+    StatusConclusao Status
+);
+
 public record ListarTarefasDto(
     Guid Id,
     string Titulo,
@@ -21,7 +22,6 @@ public record ListarTarefasDto(
 public record CadastrarTarefaDto(
     string Titulo,
     PrioridadeTarefa Prioridade
-// List<string> Itens
 );
 
 public record EditarTarefaDto(
@@ -29,7 +29,6 @@ public record EditarTarefaDto(
     string Titulo,
     PrioridadeTarefa Prioridade,
     StatusConclusao? Status
-// List<string> Itens
 );
 
 public record DetalhesTarefaDto(
@@ -38,5 +37,18 @@ public record DetalhesTarefaDto(
     PrioridadeTarefa Prioridade,
     StatusConclusao? Status,
     decimal PercentualConcluido
-// List<ItemTarefaDto> Itens
+);
+
+public record ListarItensTarefaDto(
+    Guid TarefaId,
+    string TarefaTitulo,
+    StatusConclusao TarefaStatus,
+    decimal PercentualConcluido,
+    DateOnly? DataConclusao,
+    List<ItemTarefaDto> Itens
+);
+
+public record AdicionarItemTarefaDto(
+    Guid TarefaId,
+    string Titulo
 );
