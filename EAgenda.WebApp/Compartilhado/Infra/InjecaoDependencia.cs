@@ -27,9 +27,6 @@ public static class InjecaoDependencia
         });
 
         services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
-
-
-
         services.AddScoped<IRepositorioContato, RepositorioContatoEmSql>();
         services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmSql>();
         services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmSql>();
