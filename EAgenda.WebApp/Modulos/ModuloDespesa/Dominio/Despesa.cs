@@ -9,7 +9,7 @@ public class Despesa : EntidadeBase<Despesa>
     public DateTime Ocorrencia { get; set; }
     public decimal Valor { get; set; }
     public FormaPagamento Pagamento { get; set; }
-    public Categoria? Categoria { get; set; }
+    public List<Categoria> Categorias { get; set; } = new List<Categoria>();
 
     public Despesa()
     {
@@ -20,15 +20,14 @@ public class Despesa : EntidadeBase<Despesa>
         DateTime ocorrencia,
         decimal valor,
         FormaPagamento pagamento,
-        Categoria categoria)
+        List<Categoria> categorias)
     {
         Descricao = descricao;
         Ocorrencia = ocorrencia;
         Valor = valor;
         Pagamento = pagamento;
-        Categoria = categoria;
+        Categorias = categorias;
     }
-
 
     public override List<string> Validar()
     {
@@ -59,7 +58,7 @@ public class Despesa : EntidadeBase<Despesa>
     }
     private void ValidarCategoria(List<string> erros)
     {
-        if (Categoria == null)
+        if (Categorias == null || Categorias.Count == 0)
             erros.Add("É necessário selecionar pelo menos uma categoria.");
     }
     public override void Atualizar(Despesa entidadeAtualizada)
@@ -70,6 +69,6 @@ public class Despesa : EntidadeBase<Despesa>
         Ocorrencia = despesaAtualizada.Ocorrencia;
         Valor = despesaAtualizada.Valor;
         Pagamento = despesaAtualizada.Pagamento;
-        Categoria = despesaAtualizada.Categoria;
+        Categorias = despesaAtualizada.Categorias;
     }
 }

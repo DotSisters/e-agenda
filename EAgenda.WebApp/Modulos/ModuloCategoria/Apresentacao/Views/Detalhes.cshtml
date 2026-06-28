@@ -1,0 +1,48 @@
+@using EAgenda.WebApp.Modulos.ModuloDespesa.Dominio
+@{
+Layout = "_Layout";
+ViewBag.Titulo = "📂 Detalhes Despesas";
+ViewBag.Info = "Veja as despesas vinculadas a esta categoria.";
+ViewBag.TextoBotao = "Cadastrar Despesa";
+ViewBag.ControllerBotao = "Despesa";
+ViewBag.ActionBotao = "Cadastrar";
+}
+
+@model CategoriaComDespesasViewModels
+
+<div class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 940px;">
+    <div class="mb-4">
+        <h2 class="h4 mb-1">Categoria: @Model.Titulo</h2>
+    </div>
+
+    @if (Model.Despesas.Count == 0)
+    {
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhuma despesa foi cadastrada para esta categoria.
+    </div>
+    }
+    else
+    {
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+        @foreach (DespesaPorCategoriaViewModels despesa in Model.Despesas)
+        {
+        <div class="col">
+            <div class="card h-100 shadow-sm border-secondary-subtle">
+                <div class="card-body">
+                    <h5 class="card-title">@despesa.Descricao</h5>
+                    <p class="text-secondary mb-1">Data: @despesa.Ocorrencia.ToString("dd/MM/yyyy")</p>
+                    <p class="text-secondary mb-1">Pagamento: @(despesa.Pagamento == FormaPagamento.AVista ? "À vista" :
+                        despesa.Pagamento == FormaPagamento.Credito ? "Crédito" : "Débito")</p>
+                    <p class="fw-semibold mb-0">Valor: @despesa.Valor.ToString("C", new
+                        System.Globalization.CultureInfo("pt-BR"))</p>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+    </div>
+</div>

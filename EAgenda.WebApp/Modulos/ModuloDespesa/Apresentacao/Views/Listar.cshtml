@@ -33,7 +33,6 @@ ViewBag.ActionBotao = "Cadastrar";
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                         <h5 class="card-title mb-0">@d.Descricao</h5>
-                        <span class="badge text-bg-warning rounded-pill">@d.Id.ToString().Substring(0, 8)</span>
                     </div>
 
                     <dl class="row g-2 mb-4">
@@ -54,8 +53,13 @@ ViewBag.ActionBotao = "Cadastrar";
                     </dl>
 
                     <dl class="row g-2 mb-4">
-                        <dt class="col-5 text-secondary fw-bold">Categoria: </dt>
-                        <dd class="col-7 mb-0 text-break">@d.CategoriaNome</dd>
+                        <dt class="col-5 text-secondary fw-bold">Categorias: </dt>
+                        <dd class="col-7 mb-0 text-break">@d.CategoriaNomes</dd>
+                    </dl>
+
+                    <dl class="row g-2 mb-4">
+                        <dt class="col-5 text-secondary fw-bold">Data: </dt>
+                        <dd class="col-7 mb-0 text-break">@d.Ocorrencia.ToString("dd/MM/yyyy")</dd>
                     </dl>
 
                     <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">

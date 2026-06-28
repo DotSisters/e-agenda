@@ -31,16 +31,18 @@ ViewBag.ActionBotao = "Cadastrar";
             <div class="card h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                        <h5 class="card-title mb-0">@c.Titulo</h5>
-                        <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
+                        <div>
+                            <h5 class="card-title mb-1">@c.Titulo</h5>
+                            <p class="text-muted mb-0">Total de despesas: <strong>@c.TotalDespesas.ToString("C", new
+                                    System.Globalization.CultureInfo("pt-BR"))</strong></p>
+                        </div>
                     </div>
 
-                    @* <dl class="row g-2 mb-4">
-                        <dt class="col-5 text-secondary fw-bold">Despesa: </dt>
-                        <dd class="col-7 mb-0 text-break">@c.DespesaDescricao</dd>
-                    </dl> *@
-
                     <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+                        <a asp-action="Detalhes" asp-route-id="@c.Id" class="btn btn-outline-secondary"
+                            title="Ver despesas">
+                            <i class="bi bi-card-list"></i> Ver despesas
+                        </a>
                         <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>

@@ -21,10 +21,19 @@ public class ServicoDespesa
 
     public Result Cadastrar(CadastrarDespesaDto dto)
     {
-        Categoria? categoriaSelecionada = repositorioCategoria.SelecionarPorId(dto.CategoriaId);
+        if (dto.CategoriaIds == null || dto.CategoriaIds.Count == 0)
+            return Falha(nameof(dto.CategoriaIds), "Selecione pelo menos uma categoria válida.");
 
-        if (categoriaSelecionada == null)
-            return Falha(nameof(dto.CategoriaId), "Selecione uma categoria válida.");
+        List<Guid> categoriaIdsDistintos = dto.CategoriaIds.Distinct().ToList();
+
+        List<Categoria> categoriasSelecionadas = categoriaIdsDistintos
+            .Select(id => repositorioCategoria.SelecionarPorId(id))
+            .Where(categoria => categoria != null)
+            .Cast<Categoria>()
+            .ToList();
+
+        if (categoriasSelecionadas.Count != categoriaIdsDistintos.Count)
+            return Falha(nameof(dto.CategoriaIds), "Selecione apenas categorias válidas.");
 
         DateTime dataOcorrencia = dto.Ocorrencia ?? DateTime.Now;
 
@@ -33,7 +42,7 @@ public class ServicoDespesa
             dataOcorrencia,
             dto.Valor,
             dto.Pagamento,
-            categoriaSelecionada
+            categoriasSelecionadas
         );
 
         Result resultadoValidacao = ValidarEntidade(novaDespesa);
@@ -53,16 +62,25 @@ public class ServicoDespesa
         if (despesaSelecionada == null)
             return Result.Fail("Despesa não encontrada.");
 
-        Categoria? categoriaSelecionada = repositorioCategoria.SelecionarPorId(dto.CategoriaId);
+        if (dto.CategoriaIds == null || dto.CategoriaIds.Count == 0)
+            return Falha(nameof(dto.CategoriaIds), "Selecione pelo menos uma categoria válida.");
 
-        if (categoriaSelecionada == null)
-            return Falha(nameof(dto.CategoriaId), "Selecione uma categoria válida.");
+        List<Guid> categoriaIdsDistintos = dto.CategoriaIds.Distinct().ToList();
+
+        List<Categoria> categoriasSelecionadas = categoriaIdsDistintos
+            .Select(id => repositorioCategoria.SelecionarPorId(id))
+            .Where(categoria => categoria != null)
+            .Cast<Categoria>()
+            .ToList();
+
+        if (categoriasSelecionadas.Count != categoriaIdsDistintos.Count)
+            return Falha(nameof(dto.CategoriaIds), "Selecione apenas categorias válidas.");
 
         despesaSelecionada.Descricao = dto.Descricao;
-        despesaSelecionada.Ocorrencia = dto.Ocorrencia;
+        despesaSelecionada.Ocorrencia = dto.Ocorrencia ?? DateTime.Now;
         despesaSelecionada.Valor = dto.Valor;
         despesaSelecionada.Pagamento = dto.Pagamento;
-        despesaSelecionada.Categoria = categoriaSelecionada;
+        despesaSelecionada.Categorias = categoriasSelecionadas;
 
         Result resultadoValidacao = ValidarEntidade(despesaSelecionada);
 
@@ -97,8 +115,7 @@ public class ServicoDespesa
                 d.Ocorrencia,
                 d.Valor,
                 d.Pagamento,
-                d.Categoria.Id,
-                d.Categoria.Titulo
+                string.Join(", ", d.Categorias.Select(c => c.Titulo))
             ))
             .ToList();
     }
@@ -116,8 +133,8 @@ public class ServicoDespesa
             despesa.Ocorrencia,
             despesa.Valor,
             despesa.Pagamento,
-            despesa.Categoria.Id,
-            despesa.Categoria?.Titulo ?? string.Empty
+            despesa.Categorias.Select(c => c.Id).ToList(),
+            string.Join(", ", despesa.Categorias.Select(c => c.Titulo))
         ));
     }
 

@@ -8,8 +8,7 @@ public record ListarDespesasDto(
     DateTime Ocorrencia,
     decimal Valor,
     FormaPagamento Pagamento,
-    Guid CategoriaId,
-    string CategoriaNome
+    string CategoriaNomes
 );
 
 public record CadastrarDespesaDto(
@@ -17,16 +16,16 @@ public record CadastrarDespesaDto(
     DateTime? Ocorrencia,
     decimal Valor,
     FormaPagamento Pagamento,
-    Guid CategoriaId
+    List<Guid> CategoriaIds
 );
 
 public record EditarDespesaDto(
     Guid Id,
     string Descricao,
-    DateTime Ocorrencia,
+    DateTime? Ocorrencia,
     decimal Valor,
     FormaPagamento Pagamento,
-    Guid CategoriaId
+    List<Guid> CategoriaIds
 );
 
 public record ExcluirDespesaDto(
@@ -35,7 +34,7 @@ public record ExcluirDespesaDto(
     DateTime Ocorrencia,
     decimal Valor,
     FormaPagamento Pagamento,
-    Guid CategoriaId
+    string CategoriaNomes
 );
 
 public record DetalhesDespesaDto(
@@ -44,6 +43,6 @@ public record DetalhesDespesaDto(
     DateTime Ocorrencia,
     decimal Valor,
     FormaPagamento Pagamento,
-    Guid CategoriaId,
-    string CategoriaNome
+    List<Guid> CategoriaIds,
+    string CategoriaNomes
 );
