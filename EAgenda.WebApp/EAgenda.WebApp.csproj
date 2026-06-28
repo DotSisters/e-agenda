@@ -20,6 +20,12 @@
     <Folder Include="Modulos/ModuloCompromisso/Apresentacao/Views/" />
     <Folder Include="Modulos/ModuloCompromisso/Dominio/" />
     <Folder Include="Modulos/ModuloCompromisso/Infra/" />
+    <Folder Include="Modulos\ModuloCategoria" />
+    <Folder Include="Modulos\ModuloCategoria\Aplicacao" />
+    <Folder Include="Modulos\ModuloCategoria\Apresentacao" />
+    <Folder Include="Modulos\ModuloCategoria\Apresentacao\Views" />
+    <Folder Include="Modulos\ModuloCategoria\Dominio" />
+    <Folder Include="Modulos\ModuloCategoria\Infra" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,46 @@
+﻿@{
+Layout = "_Layout";
+ViewBag.Titulo = "📝 Editar Categoria";
+ViewBag.Info = "Atualize informações e/ou selecione uma nova categoria para este medicamento.";
+}
+
+@model EditarCategoriaViewModels;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+    asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    <div class="mb-3">
+        <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título da
+            Categoria</label>
+        <input asp-for="Titulo" type="text" class="form-control">
+        <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
+    </div>
+
+    @* <div class="mb-3">
+        <label asp-for="DespesaId" class="form-label fw-semibold text-primary text-uppercase small">Despesa</label>
+        <select asp-for="DespesaId" class="form-select">
+            <option value="">Selecione uma despesa</option>
+            @foreach (OpcaoDespesaViewModels despesa in Model.Despesas)
+            {
+            <option value="@despesa.Id">@despesa.Descricao</option>
+            }
+        </select>
+        <span asp-validation-for="DespesaId" class="text-danger small fw-semibold"></span>
+    </div> *@
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+    </div>
+
+    @* <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        @if (Model.Despesas.Count == 0)
+        {
+        <button class="btn btn-primary rounded-pill px-4" type="submit" disabled>Confirmar</button>
+        }
+        else
+        {
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+        } *@
+    </div>
+</form>
