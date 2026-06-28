@@ -88,15 +88,34 @@ public record EditarCompromissoViewModel(
     [Required(ErrorMessage = "O campo \"Tipo do Compromisso\" é obrigatório.")]
     TipoCompromisso Tipo,
 
-    string Local,
+    string? Local,
 
-    string Link,
+    string? Link,
 
     [ValidateNever]
     List<OpcaoContatoViewModel> Contatos,
 
     Guid? ContatoId = null
-);
+) : IValidatableObject
+{
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (DataOcorrencia < DateOnly.FromDateTime(DateTime.Today))
+            yield return new ValidationResult(
+                "O campo \"Data de Ocorrência\" não pode ser anterior à data atual.",
+                [nameof(DataOcorrencia)]);
+
+        if (Tipo == TipoCompromisso.Presencial && string.IsNullOrWhiteSpace(Local))
+            yield return new ValidationResult(
+                "O campo \"Local\" é obrigatório.",
+                [nameof(Local)]);
+
+        if (Tipo == TipoCompromisso.Remoto && string.IsNullOrWhiteSpace(Link))
+            yield return new ValidationResult(
+                "O campo \"Link\" é obrigatório.",
+                [nameof(Link)]);
+    }
+}
 
 public record ExcluirCompromissoViewModel(
     Guid Id,
