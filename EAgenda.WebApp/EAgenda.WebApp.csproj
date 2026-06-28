@@ -26,6 +26,10 @@
     <Folder Include="Modulos\ModuloCategoria\Apresentacao\Views" />
     <Folder Include="Modulos\ModuloCategoria\Dominio" />
     <Folder Include="Modulos\ModuloCategoria\Infra" />
+    <Folder Include="Modulos\ModuloDespesa\Aplicacao" />
+    <Folder Include="Modulos\ModuloDespesa\Apresentacao\Views" />
+    <Folder Include="Modulos\ModuloDespesa\Dominio" />
+    <Folder Include="Modulos\ModuloDespesa\Infra" />
   </ItemGroup>
 
 </Project>
