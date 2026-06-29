@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "sqlproj: Build EAgenda",
+			"type": "process",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"/home/natalia/Documents/AcademiaDoProgramador/Modulo-04/e-agenda/EAgenda/EAgenda.sqlproj",
+				"/p:NetCoreBuild=true",
+				"/p:NETCoreTargetsPath=/home/natalia/.vscode/extensions/ms-mssql.sql-database-projects-vscode-1.6.1/BuildDirectory",
+				"/p:SystemDacpacsLocation=/home/natalia/.vscode/extensions/ms-mssql.sql-database-projects-vscode-1.6.1/BuildDirectory"
+			],
+			"problemMatcher": "$sqlproj-problem-matcher",
+			"isBackground": true,
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Builds the EAgenda SQL project"
+		},
+		{
+			"label": "sqlproj: Build EAgenda.Database",
+			"type": "process",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"/home/natalia/Documents/AcademiaDoProgramador/Modulo-04/e-agenda/EAgenda.Database/EAgenda.Database.sqlproj"
+			],
+			"problemMatcher": "$sqlproj-problem-matcher",
+			"isBackground": true,
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Builds the EAgenda.Database SQL project"
+		}
+	]
+}
