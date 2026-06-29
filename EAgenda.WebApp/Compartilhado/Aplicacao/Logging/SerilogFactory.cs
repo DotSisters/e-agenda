@@ -1,0 +1,33 @@
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
+
+namespace EAgenda.WebApp.Compartilhado.Aplicacao.Logging;
+
+public static class SerilogFactory
+{
+    public static Logger Create(IConfiguration configuration)
+    {
+        string caminhoAppData = Environment
+            .GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        string caminhoDiretorio = Path.Combine(caminhoAppData, "eAgenda");
+
+        Directory.CreateDirectory(caminhoDiretorio);
+
+        string caminhoLogs = Path.Combine(caminhoDiretorio, "erro.log");
+
+        LoggerConfiguration loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.File(
+                caminhoLogs,
+                rollingInterval: RollingInterval.Day,
+                restrictedToMinimumLevel: LogEventLevel.Error
+            );
+
+        return loggerConfiguration.CreateLogger();
+    }
+}
