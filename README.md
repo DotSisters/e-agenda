@@ -1,4 +1,4 @@
-📒 e-Agenda  
+ ## 📒 e-Agenda 
 
 - O e-Agenda é um sistema de gerenciamento que reúne em um só lugar funcionalidades essenciais para organização.
 Facilitando o controle de contatos, compromissos, categorias, despesas e tarefas com uma interface prática e intuitiva.
@@ -12,7 +12,7 @@ Facilitando o controle de contatos, compromissos, categorias, despesas e tarefas
 
 ## Funcionalidades
 
-👥 1. Módulo de Contatos  
+### 👥 1. Módulo de Contatos  
 <p align="center">
 <img src="./.docs/contatos.gif">
 </p>
@@ -34,7 +34,7 @@ Campos obrigatórios:
 ** O sistema não deve permitir contatos com mesmo e-mail e/ou telefone  
 ** Não permitir excluir um contato caso tenha compromissos vinculados  
 
-📅 2. Módulo de Compromissos  
+### 📅 2. Módulo de Compromissos  
 <p align="center">
 <img src="./.docs/compromissos.gif">
 </p>
@@ -58,7 +58,7 @@ Campos obrigatórios:
 
 ** O sistema não deve permitir conflito de horários entre compromissos  
 
-🏷️ 3. Módulo de Categorias  
+### 🏷️ 3. Módulo de Categorias  
 <p align="center">
 <img src="./.docs/categorias.gif">
 </p>
@@ -78,7 +78,7 @@ Campos obrigatórios:
 ** O sistema não deve permitir categorias com mesmo título  
 ** Não deve permitir excluir categorias relacionadas a despesas  
 
-💰 4. Módulo de Despesas  
+### 💰 4. Módulo de Despesas  
 <p align="center">
 <img src="./.docs/despesas.gif">
 </p>
@@ -97,7 +97,7 @@ Campos obrigatórios:
 - Forma de Pagamento (À Vista, Crédito ou Débito)  
 - Categorias (1 ou mais categorias)  
 
-📝 5. Módulo de Tarefas  
+### 📝 5. Módulo de Tarefas  
 <p align="center">
 <img src="./.docs/tarefas.gif">
 </p>
