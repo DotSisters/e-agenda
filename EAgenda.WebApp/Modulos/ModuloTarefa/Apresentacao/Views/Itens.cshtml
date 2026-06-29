@@ -3,8 +3,8 @@
 @model ListarItensTarefaPaginaViewModel
 @{
   Layout = "_Layout";
-  ViewBag.Titulo = "Itens da Tarefa";
-  ViewBag.Info = "Gerencie os itens da tarefa.";
+  ViewBag.Titulo = "📋 Itens da Tarefa";
+  ViewBag.Info = "Acompanhe o progresso da tarefa gerenciando seus itens.";
   ViewBag.TextoBotao = "Novo Item";
   ViewBag.ControllerBotao = "Tarefa";
   ViewBag.ActionBotao = "CadastrarItem";
@@ -19,7 +19,7 @@
   </div>
 }
 
-<section class="mb-4">
+<section class="mb-4 mt-2 d-none d-md-block">
   <div class="card border-primary-subtle shadow-sm bg-transparent">
     <div class="card-body p-0 py-3 px-4">
       <div class="d-flex flex-wrap justify-content-between gap-3">
@@ -54,7 +54,7 @@
   </div>
 </section>
 
-<section>
+<section class="mt-2">
   <h5 class="mb-3 fw-bold">Itens</h5>
 
   @if (Model.Itens.Count == 0)

@@ -1,5 +1,6 @@
 @{
   Layout = "_Layout";
+  ViewData["BodyClass"] = "page-index";
 }
 
 <div class="row index-container">
@@ -10,13 +11,13 @@
     </p>
     <div class="d-flex flex-wrap gap-2 mt-4 d-none d-md-block">
       <a class="btn btn-primary rounded-pill px-4 mb-3 btn-home" asp-controller="Contato"
-         asp-action="Listar">Contatos</a>
+        asp-action="Listar">Contatos</a>
       <a class="btn btn-primary rounded-pill px-4 mb-3 btn-home" asp-controller="Compromisso"
-         asp-action="Listar">Compromissos</a>
+        asp-action="Listar">Compromissos</a>
       <a class="btn btn-primary rounded-pill px-4 mb-3 btn-home" asp-controller="Categoria"
-         asp-action="Listar">Categorias</a>
+        asp-action="Listar">Categorias</a>
       <a class="btn btn-primary rounded-pill px-4 mb-3 btn-home" asp-controller="Despesa"
-         asp-action="Listar">Despesas</a>
+        asp-action="Listar">Despesas</a>
       <a class="btn btn-primary rounded-pill px-4 mb-3 btn-home" asp-controller="Tarefa" asp-action="Listar">Tarefas</a>
 
       <div class="index-img-container">
@@ -30,37 +31,37 @@
 
   <div class="col-lg-5">
     <div class="card border-primary-subtle shadow-sm rounded-4"
-         style="background-image: radial-gradient(circle,rgba(50, 121, 221, 1) 0%, rgba(54, 92, 145, 1) 100%);">
+      style="background-image: radial-gradient(circle,rgba(50, 121, 221, 1) 0%, rgba(54, 92, 145, 1) 100%);">
       <div class="card-body p-4">
         <h4 class="h4 text-primary mb-4 text-white p-2">Módulos disponíveis</h4>
 
         <div class="list-group gap-1">
           <a class="modulo-card list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-medium border-primary shadow-sm border-1 rounded-3 mb-4 p-2.5"
-             asp-controller="Contato" asp-action="Listar">
+            asp-controller="Contato" asp-action="Listar">
             👥 Contatos
             <span class="badge text-bg-primary rounded-pill">Abrir</span>
           </a>
 
           <a class="modulo-card list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-medium border-primary shadow-sm border-1 rounded-3 mb-4 p-2.5"
-             asp-controller="Compromisso" asp-action="Listar">
+            asp-controller="Compromisso" asp-action="Listar">
             📅 Compromissos
             <span class="badge text-bg-primary rounded-pill">Abrir</span>
           </a>
 
           <a class="modulo-card list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-medium border-primary shadow-sm border-1 rounded-3 mb-4 p-2.5"
-             asp-controller="Categoria" asp-action="Listar">
+            asp-controller="Categoria" asp-action="Listar">
             🏷️ Categorias
             <span class="badge text-bg-primary rounded-pill">Abrir</span>
           </a>
 
           <a class="modulo-card list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-medium border-primary shadow-sm border-1 rounded-3 mb-4 p-2.5"
-             asp-controller="Despesa" asp-action="Listar">
+            asp-controller="Despesa" asp-action="Listar">
             💰 Despesas
             <span class="badge text-bg-primary rounded-pill">Abrir</span>
           </a>
 
           <a class="modulo-card list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-medium border-primary shadow-sm border-1 rounded-3 mb-4 p-2.5"
-             asp-controller="Tarefa" asp-action="Listar">
+            asp-controller="Tarefa" asp-action="Listar">
             📝 Tarefas
             <span class="badge text-bg-primary rounded-pill">Abrir</span>
           </a>
