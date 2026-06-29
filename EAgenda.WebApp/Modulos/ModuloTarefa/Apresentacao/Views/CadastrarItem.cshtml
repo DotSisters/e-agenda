@@ -1,0 +1,24 @@
+@using EAgenda.WebApp.Modulos.ModuloTarefa.Apresentacao
+@{
+  Layout = "_Layout";
+  ViewBag.Titulo = "Cadastrar Item";
+  ViewBag.Info = "Registre um novo item para a tarefa.";
+}
+
+@model CadastrarItemTarefaViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 bg-transparent" style="max-width: 620px;"
+      asp-action="CadastrarItem" method="post">
+  <input type="hidden" asp-for="TarefaId" />
+
+  <div class="mb-3">
+    <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>
+    <input asp-for="Titulo" type="text" class="form-control">
+    <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <a class="btn btn-outline-primary rounded-2 px-4" asp-action="Itens" asp-route-id="@Model.TarefaId">Voltar</a>
+    <button class="btn btn-primary rounded-2 px-4" type="submit">Confirmar</button>
+  </div>
+</form>

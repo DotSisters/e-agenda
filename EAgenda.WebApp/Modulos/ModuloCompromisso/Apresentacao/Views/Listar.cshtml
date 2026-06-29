@@ -32,12 +32,12 @@ else
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-              <h5 class="card-title mb-0">@c.Assunto</h5>
-              <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <h5 class="card-title fw-semibold text-dark medium">@c.Assunto</h5>
             </div>
+            <hr class="my-1">
 
-            <dl class="row g-2 mb-4">
+            <dl class="row g-2 mb-4 mt-2">
               <dt class="col-5 text-secondary fw-bold">Data:</dt>
               <dd class="col-7 mb-0 text-break">@c.DataOcorrencia.ToString("dd/MM/yyyy")</dd>
 

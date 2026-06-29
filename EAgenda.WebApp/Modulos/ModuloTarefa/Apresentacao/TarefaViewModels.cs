@@ -69,6 +69,5 @@ public record ListarItensTarefaPaginaViewModel(
     StatusConclusao TarefaStatus,
     decimal PercentualConcluido,
     DateOnly? DataConclusao,
-    List<ItemTarefaViewModel> Itens,
-    CadastrarItemTarefaViewModel NovoItem
+    List<ItemTarefaViewModel> Itens
 );
