@@ -12,7 +12,6 @@ public class ContatoController(ServicoContato servicoContato, IMapper mapeador) 
     public ActionResult Listar()
     {
 
-        throw new Exception("Erro de Teste");
 
         List<ListarContatosDto> dtos = servicoContato.SelecionarTodos();
         List<ListarContatosViewModels> listarVms = mapeador.Map<List<ListarContatosViewModels>>(dtos);
