@@ -1,66 +1,67 @@
 ﻿@{
-Layout = "_Layout";
-ViewBag.Titulo = "👥 Contatos";
-ViewBag.Info = "Cadastre, visualize e gerencie contatos.";
-ViewBag.TextoBotao = "Cadastrar Contato";
-ViewBag.ControllerBotao = "Contato";
-ViewBag.ActionBotao = "Cadastrar";
+  Layout = "_Layout";
+  ViewBag.Titulo = "👥 Contatos";
+  ViewBag.Info = "Cadastre, visualize e gerencie contatos.";
+  ViewBag.TextoBotao = "Cadastrar Contato";
+  ViewBag.ControllerBotao = "Contato";
+  ViewBag.ActionBotao = "Cadastrar";
 }
 
 @model List<ListarContatosViewModels>;
 
-    @if (TempData["MensagemErro"] is string mensagemErro)
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+  <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+    @mensagemErro
+  </div>
+}
+
+@if (Model.Count == 0)
+{
+  <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+    Nenhum contato cadastrado.
+  </div>
+}
+else
+{
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+    @foreach (ListarContatosViewModels c in Model)
     {
-    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
-        @mensagemErro
-    </div>
-    }
-
-    @if (Model.Count == 0)
-    {
-    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
-        Nenhum contato cadastrado.
-    </div>
-    }
-    else
-    {
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
-        @foreach (ListarContatosViewModels c in Model)
-        {
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                        <h5 class="card-title mb-0">@c.Nome</h5>
-                        <span class="badge text-bg-warning rounded-pill">@c.Id.ToString().Substring(0, 8)</span>
-                    </div>
-
-                    <dl class="row g-2 mb-4">
-                        <dt class="col-5 text-secondary fw-bold">E-mail:</dt>
-                        <dd class="col-7 mb-0 text-break">@c.Email</dd>
-
-                        <dt class="col-5 text-secondary fw-bold">Telefone</dt>
-                        <dd class="col-7 mb-0 text-break">
-                            @c.Telefone
-                        </dd>
-
-                        <dt class="col-5 text-secondary fw-bold">Cargo:</dt>
-                        <dd class="col-7 mb-0 text-break">@c.Cargo</dd>
-
-                        <dt class="col-5 text-secondary fw-bold">Empresa:</dt>
-                        <dd class="col-7 mb-0 text-break">@c.Empresa</dd>
-
-                        <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
-                            <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a asp-action="excluir" asp-route-id="@c.Id" class="btn btn-danger" title="Excluir">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <h5 class="card-title fw-semibold text-dark medium">@c.Nome</h5>
             </div>
+            <hr class="my-1">
+
+            <dl class="row g-2 mb-4 mt-2">
+              <dt class="col-4 text-secondary fw-bold">E-mail:</dt>
+              <dd class="col-8 mb-0 text-break">@c.Email</dd>
+
+              <dt class="col-4 text-secondary fw-bold">Telefone</dt>
+              <dd class="col-8 mb-0 text-break">
+                @c.Telefone
+              </dd>
+
+              <dt class="col-4 text-secondary fw-bold">Cargo:</dt>
+              <dd class="col-8 mb-0 text-break">@c.Cargo</dd>
+
+              <dt class="col-4 text-secondary fw-bold">Empresa:</dt>
+              <dd class="col-8 mb-0 text-break">@c.Empresa</dd>
+            </dl>
+
+            <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+              <a asp-action="editar" asp-route-id="@c.Id" class="btn btn-primary" title="Editar">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a asp-action="excluir" asp-route-id="@c.Id" class="btn btn-danger" title="Excluir">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </div>
         </div>
-        }
-    </div>
+      </div>
     }
+  </div>
+}

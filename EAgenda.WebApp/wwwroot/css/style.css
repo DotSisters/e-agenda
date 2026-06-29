@@ -4,6 +4,7 @@ body{
     background-attachment: fixed;
     min-height: 100vh;
     font-family: "Lora", "Times New Roman", serif;
+    overflow-y: hidden;
 }
 
 .tabela-container {
@@ -104,12 +105,21 @@ body{
 
 }
 
+.index-container {
+  margin-top: 3rem;
+}
+
+.index-img-container {
+  margin: 2rem auto 2rem auto;
+
+}
+
 .index-img {
   position: relative;
   display: block;
-  margin: 0 auto 2rem auto;
-  width: 100%;
-  max-width: 2000px;
+  padding-top: 1rem;
+  width: 90%;
+  max-width: 900px;
   height: auto;
   z-index: 0;
   pointer-events: none;
