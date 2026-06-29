@@ -1,0 +1,7 @@
+CREATE TABLE [dbo].[TBCategoria] (
+    [Id]     UNIQUEIDENTIFIER NOT NULL,
+    [Titulo] NVARCHAR (100)   NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+GO
+
