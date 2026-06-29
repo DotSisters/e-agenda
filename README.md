@@ -1,4 +1,4 @@
-📒 e-Agenda  
+ ## 📒 e-Agenda 
 
 - O e-Agenda é um sistema de gerenciamento que reúne em um só lugar funcionalidades essenciais para organização.
 Facilitando o controle de contatos, compromissos, categorias, despesas e tarefas com uma interface prática e intuitiva.
