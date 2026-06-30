@@ -21,10 +21,13 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: "10.x"
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+      - name: Build database project
+        run: dotnet build EAgenda.Database/EAgenda.Database.sqlproj --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
@@ -34,6 +37,12 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Upload database artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-dacpac
+          path: EAgenda.Database/bin/Release/EAgenda.Database.dacpac
 
   deploy:
     runs-on: windows-latest
@@ -47,7 +56,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
+      - name: Download database from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: database-dacpac
+          path: database
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +70,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E87202B0D49C4CEE871CBA9BFA823A1E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F266B083CEA647748874392EA84B7531 }}
 
+      - name: Deploy database schema
+        uses: azure/sql-action@v3
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          path: database/EAgenda.Database.dacpac
+          action: Publish
+          arguments: /p:BlockOnPossibleDataLoss=true
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'e-Agenda'
-          slot-name: 'Production'
+          app-name: "e-Agenda"
+          slot-name: "Production"
           package: .
-          
