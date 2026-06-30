@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Compartilhado/Apresentacao/Mapping/" />
     <Folder Include="Modulos\ModuloContato\Aplicacao\" />
     <Folder Include="Modulos\ModuloContato\Apresentacao\Views\" />
     <Folder Include="Modulos\ModuloContato\Dominio\" />
